@@ -8,7 +8,7 @@ import { GameUser } from '../src/domain/game-user';
 @Injectable()
 export class MongooseUserAuthRepository implements UserAuthRepository {
   constructor(
-    @InjectModel(GameUserDocument.name)
+    @InjectModel(GameUserDocument.name, 'User')
     private readonly userModel: Model<GameUserModel>,
   ) {}
 
