@@ -1,16 +1,21 @@
 import { AggregateRoot } from '@app/common/base/aggregate-root';
 import { Role } from '@app/common/role';
 import { Password } from './password';
+import { WorldServerType } from '@app/common/world-server-type';
 
-interface UserProps {
+export interface UserProps {
   account: string;
   password: Password;
   name: string;
   role: Role;
+  baseServer: WorldServerType;
+  createdAt: Date;
+  updatedAt: Date;
+  isLoggedIn: boolean;
 }
 
-export class User extends AggregateRoot<UserProps> {
-  private constructor(props: UserProps, id?: string) {
+export class User<T extends UserProps> extends AggregateRoot<T> {
+  protected constructor(props: T, id?: string) {
     super(props, id);
   }
 
@@ -30,12 +35,28 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.role;
   }
 
-  static create(props: UserProps, id?: string): User {
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.props.isLoggedIn;
+  }
+
+  get baseServer(): WorldServerType {
+    return this.props.baseServer;
+  }
+
+  static create(props: UserProps, id?: string): User<UserProps> {
     const user = new User(props, id);
     return user;
   }
 
-  static from(props: UserProps, id?: string): User {
+  static from(props: UserProps, id?: string): User<UserProps> {
     const user = new User(props, id);
     return user;
   }
