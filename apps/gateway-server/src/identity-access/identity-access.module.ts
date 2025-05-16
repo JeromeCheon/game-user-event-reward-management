@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVER } from 'apps/shared/symbols';
+import { AUTH_SERVER } from '@app/common/symbols';
 import { IdentityAccessService } from './identity-access.service';
 import { IdentityAccessController } from './identity-access.controller';
 
