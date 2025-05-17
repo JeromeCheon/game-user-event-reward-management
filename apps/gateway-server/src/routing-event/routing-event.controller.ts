@@ -1,9 +1,23 @@
-import { Controller, Get, Logger, UseFilters, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { RoutingEventService } from './routing-event.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http-exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiAuthSecurity } from '@app/common/decorator/api-security';
+import { Role } from '@app/common/variable/role';
+import { CreateEventDto } from '@app/common/dto/create-event-dto';
+import { RoleGuard } from '@app/common/decorator/role-guard';
+import { Roles } from '@app/common/decorator/roles';
+import { AuthUser } from '@app/common/decorator/auth-user';
+import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 
 @ApiTags('Event')
 @UseGuards(AuthGuard('jwt'))
@@ -12,6 +26,19 @@ import { ApiAuthSecurity } from '@app/common/decorator/api-security';
 export class RoutingEventController {
   private readonly logger = new Logger(RoutingEventController.name);
   constructor(private readonly routingEventService: RoutingEventService) {}
+
+  @Post()
+  @ApiOperation({ summary: '이벤트 생성' })
+  @ApiBody({ type: CreateEventDto, description: '이벤트 생성에 필요한 정보' })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async createEvent(
+    @Body() createEventDto: CreateEventDto,
+    @AuthUser() user: AuthUserInfo,
+  ) {
+    return await this.routingEventService.createEvent({ createEventDto, user });
+  }
 
   @Get('all')
   @ApiOperation({ summary: '이벤트 목록 조회' })

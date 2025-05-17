@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { AUTH_SERVER } from '@app/common/symbols';
+import { AUTH_SERVER } from '@app/common/variable/symbols';
 import { firstValueFrom } from 'rxjs';
-import { AUTH_SERVER_COMMAND } from '@app/common/auth-server-command';
+import { AUTH_SERVER_COMMAND } from '@app/common/variable/auth-server-command';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';

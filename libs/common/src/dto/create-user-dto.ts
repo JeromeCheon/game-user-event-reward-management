@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString, Length, Matches } from 'class-validator';
-import { WorldServerType } from '../world-server-type';
+import { WorldServerType } from '../variable/world-server-type';
 
 export class CreateUserDto {
   @IsString()

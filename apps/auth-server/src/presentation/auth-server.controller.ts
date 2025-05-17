@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { AUTH_SERVER_COMMAND } from '@app/common/auth-server-command';
+import { AUTH_SERVER_COMMAND } from '@app/common/variable/auth-server-command';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { UserAuthService } from '../application/user-auth.service';
 import { AdminAuthService } from '../application/admin-auth.service';

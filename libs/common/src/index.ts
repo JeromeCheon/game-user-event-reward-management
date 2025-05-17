@@ -51,5 +51,3 @@ config.loadFile(path.join(process.cwd(), 'libs/common/src/config/config.yaml'));
 config.validate({ allowed: 'strict' });
 
 export default config;
-export * from './common.module';
-export * from './common.service';

@@ -1,7 +1,7 @@
 import { AggregateRoot } from '@app/common/base/aggregate-root';
-import { Role } from '@app/common/role';
+import { Role } from '@app/common/variable/role';
 import { Password } from './password';
-import { WorldServerType } from '@app/common/world-server-type';
+import { WorldServerType } from '@app/common/variable/world-server-type';
 
 export interface UserProps {
   account: string;

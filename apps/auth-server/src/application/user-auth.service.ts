@@ -5,11 +5,11 @@ import {
 } from '../domain/game-user-auth.repository';
 import { Password } from '../domain/password';
 import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
-import { Role } from '@app/common/role';
+import { Role } from '@app/common/variable/role';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { GameUser } from '../domain/game-user';
-import { MapleJobTitle } from '@app/common/maple-job-info';
-import { MapleJobType } from '@app/common/maple-job-info';
+import { MapleJobTitle } from '@app/common/variable/maple-job-info';
+import { MapleJobType } from '@app/common/variable/maple-job-info';
 
 @Injectable()
 export class UserAuthService {

@@ -1,8 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Password } from '../../../../apps/auth-server/src/domain/password';
-import { Role } from '@app/common/role';
-import { WorldServerType } from '@app/common/world-server-type';
-import { MapleJobType, MapleJobTitle } from '@app/common/maple-job-info';
+import { Role } from '@app/common/variable/role';
+import { WorldServerType } from '@app/common/variable/world-server-type';
+import {
+  MapleJobType,
+  MapleJobTitle,
+} from '@app/common/variable/maple-job-info';
 import { MapleJobInfoSchema } from './user.schema';
 import { MapleJobInfoDocument } from './user.schema';
 import { Operator } from 'apps/auth-server/src/domain/operator';

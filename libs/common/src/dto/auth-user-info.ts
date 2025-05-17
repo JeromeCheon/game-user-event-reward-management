@@ -1,7 +1,6 @@
 import { Role } from '../variable/role';
 
-export interface SessionPayload {
+export class AuthUserInfo {
   id: string;
   role: Role;
-  expiredAt: Date;
 }
