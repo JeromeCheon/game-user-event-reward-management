@@ -23,28 +23,29 @@ import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth.repository';
 import { AdminAuthService } from './application/admin-auth.service';
 import { OperatorAuthService } from './application/operator-auth.service';
 import { AuditorAuthService } from './application/auditor-auth.service';
+import config from '@app/common';
 
-// TODO: 환경변수로 변경
-const uri = 'mongodb://maple:story@localhost:27017';
+const { username, password, host, port, userdb } = config.get('mongodb');
+const uri = `mongodb://${username}:${password}@${host}:${port}`;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`${uri}/User`, {
+    MongooseModule.forRoot(`${uri}/${userdb}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'User',
     }),
-    MongooseModule.forRoot(`${uri}/User`, {
+    MongooseModule.forRoot(`${uri}/${userdb}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Admin',
     }),
-    MongooseModule.forRoot(`${uri}/User`, {
+    MongooseModule.forRoot(`${uri}/${userdb}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Auditor',
     }),
-    MongooseModule.forRoot(`${uri}/User`, {
+    MongooseModule.forRoot(`${uri}/${userdb}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Operator',
