@@ -1,0 +1,6 @@
+mongodb:
+  username: maple
+  password: story
+  host: localhost
+  port: 27017
+  userdb: User
