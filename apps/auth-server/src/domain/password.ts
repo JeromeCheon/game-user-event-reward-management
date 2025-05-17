@@ -22,4 +22,8 @@ export class Password extends ValueObject<PasswordProps> {
   static from(password: string): Password {
     return new Password({ value: password });
   }
+
+  async compare(plaintext: string): Promise<boolean> {
+    return await bcrypt.compare(plaintext, this.value);
+  }
 }

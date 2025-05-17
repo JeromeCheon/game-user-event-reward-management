@@ -24,12 +24,21 @@ import { AdminAuthService } from './application/admin-auth.service';
 import { OperatorAuthService } from './application/operator-auth.service';
 import { AuditorAuthService } from './application/auditor-auth.service';
 import config from '@app/common';
+import { UserSessionService } from './application/user-session-service';
+import { JwtSessionPolicy } from '../infra/jwt.session-policy';
+import { SESSION_POLICY } from './domain/session-policy';
+import { JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 
 const { username, password, host, port, userdb } = config.get('mongodb');
 const uri = `mongodb://${username}:${password}@${host}:${port}`;
 
 @Module({
   imports: [
+    JwtModule.register({
+      secret: config.get('jwt.secret'),
+      signOptions: { expiresIn: config.get('jwt.expiresIn') },
+    }),
     MongooseModule.forRoot(`${uri}/${userdb}`, {
       authSource: 'admin',
       tls: false,
@@ -73,6 +82,8 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
     AdminAuthService,
     AuditorAuthService,
     OperatorAuthService,
+    UserSessionService,
+    JwtService,
     {
       provide: GAME_USER_AUTH_REPOSITORY,
       useClass: MongooseGameUserAuthRepository,
@@ -88,6 +99,10 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
     {
       provide: AUDITOR_AUTH_REPOSITORY,
       useClass: MongooseAuditorAuthRepository,
+    },
+    {
+      provide: SESSION_POLICY,
+      useClass: JwtSessionPolicy,
     },
   ],
 })

@@ -63,6 +63,9 @@ export class GameUserDocument {
   @Prop({ required: true })
   isBanned: boolean;
 
+  @Prop({ required: false })
+  lastLoginAt?: Date;
+
   static fromDomain(user: GameUser): GameUserDocument {
     const doc = new GameUserDocument();
     doc._id = user.id;
@@ -75,6 +78,9 @@ export class GameUserDocument {
     if (user.recommandorAccount) {
       doc.recommandorAccount = user.recommandorAccount;
     }
+    if (user.lastLoginAt) {
+      doc.lastLoginAt = user.lastLoginAt;
+    }
     doc.createdAt = user.createdAt;
     doc.updatedAt = user.updatedAt;
     doc.isLoggedIn = user.isLoggedIn;
@@ -84,6 +90,7 @@ export class GameUserDocument {
     job.title = user.job.title;
     job.degree = user.job.degree;
     doc.job = job;
+
     return doc;
   }
 
@@ -106,6 +113,7 @@ export class GameUserDocument {
         updatedAt: this.updatedAt,
         isLoggedIn: this.isLoggedIn,
         isBanned: this.isBanned,
+        lastLoginAt: this.lastLoginAt ?? undefined,
       },
       this._id,
     );

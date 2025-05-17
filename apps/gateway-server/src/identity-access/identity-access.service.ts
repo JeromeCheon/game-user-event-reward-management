@@ -6,6 +6,7 @@ import { AUTH_SERVER_COMMAND } from '@app/common/auth-server-command';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
+import { LoginUserDto } from '@app/common/dto/login-user-dto';
 
 @Injectable()
 export class IdentityAccessService {
@@ -14,6 +15,12 @@ export class IdentityAccessService {
   async createUser(body: CreateGameUserDto): Promise<string> {
     return await firstValueFrom(
       this.authClient.send({ cmd: AUTH_SERVER_COMMAND.CREATE_USER }, body),
+    );
+  }
+
+  async loginUser(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_USER }, body),
     );
   }
 

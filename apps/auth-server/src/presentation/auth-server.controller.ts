@@ -8,6 +8,8 @@ import { AuditorAuthService } from '../application/auditor-auth.service';
 import { OperatorAuthService } from '../application/operator-auth.service';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
+import { LoginUserDto } from '@app/common/dto/login-user-dto';
+import { UserSessionService } from '../application/user-session-service';
 
 @Controller()
 export class AuthServerController {
@@ -16,11 +18,17 @@ export class AuthServerController {
     private readonly adminAuthService: AdminAuthService,
     private readonly auditorAuthService: AuditorAuthService,
     private readonly operatorAuthService: OperatorAuthService,
+    private readonly userSessionService: UserSessionService,
   ) {}
 
   @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_USER })
   createUser(@Payload() body: CreateGameUserDto): Promise<string> {
     return this.userAuthService.createUser(body);
+  }
+
+  @MessagePattern({ cmd: AUTH_SERVER_COMMAND.LOGIN_USER })
+  loginUser(@Payload() body: LoginUserDto): Promise<string> {
+    return this.userSessionService.loginUser(body);
   }
 
   @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_ADMIN })

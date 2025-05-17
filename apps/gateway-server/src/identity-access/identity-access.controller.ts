@@ -5,6 +5,7 @@ import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http-exc
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
+import { LoginUserDto } from '@app/common/dto/login-user-dto';
 
 @ApiTags('v1/auth')
 @Controller('v1/auth')
@@ -18,6 +19,14 @@ export class IdentityAccessController {
   async createUser(@Body() body: CreateGameUserDto): Promise<string> {
     const id = await this.identityAccessService.createUser(body);
     this.logger.log(`게임 유저가 생성되었습니다. id: ${id}`);
+    return id;
+  }
+
+  @Post('user/login')
+  @ApiOperation({ summary: '유저 로그인' })
+  async loginUser(@Body() body: LoginUserDto): Promise<string> {
+    const id = await this.identityAccessService.loginUser(body);
+    this.logger.log(`게임 유저 ${body.name} 님이 접속 하셨습니다.`);
     return id;
   }
 
