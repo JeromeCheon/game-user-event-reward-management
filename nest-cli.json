@@ -28,6 +28,15 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
+    "event-server": {
+      "type": "application",
+      "root": "apps/event-server",
+      "entryFile": "main",
+      "sourceRoot": "apps/event-server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/event-server/tsconfig.app.json"
+      }
+    },
     "gateway-server": {
       "type": "application",
       "root": "apps/gateway-server",
