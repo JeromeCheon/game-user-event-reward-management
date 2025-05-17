@@ -18,12 +18,6 @@ export class IdentityAccessService {
     );
   }
 
-  async loginUser(body: LoginUserDto): Promise<string> {
-    return await firstValueFrom(
-      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_USER }, body),
-    );
-  }
-
   async createAdmin(body: CreateUserDto): Promise<string> {
     return await firstValueFrom(
       this.authClient.send({ cmd: AUTH_SERVER_COMMAND.CREATE_ADMIN }, body),
@@ -39,6 +33,30 @@ export class IdentityAccessService {
   async createOperator(body: CreateOperatorDto): Promise<string> {
     return await firstValueFrom(
       this.authClient.send({ cmd: AUTH_SERVER_COMMAND.CREATE_OPERATOR }, body),
+    );
+  }
+
+  async loginUser(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_USER }, body),
+    );
+  }
+
+  async loginAdmin(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_ADMIN }, body),
+    );
+  }
+
+  async loginOperator(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_OPERATOR }, body),
+    );
+  }
+
+  async loginAuditor(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_AUDITOR }, body),
     );
   }
 }

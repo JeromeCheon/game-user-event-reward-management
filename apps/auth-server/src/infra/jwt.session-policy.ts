@@ -1,7 +1,7 @@
 import config from '@app/common';
-import { SessionPolicy } from '../src/domain/session-policy';
-import { UserProps } from '../src/domain/user';
-import { User } from '../src/domain/user';
+import { SessionPolicy } from '../domain/session-policy';
+import { UserProps } from '../domain/user';
+import { User } from '../domain/user';
 import { JwtService } from '@nestjs/jwt';
 import { Inject } from '@nestjs/common';
 import { SessionPayload } from '@app/common/dto/session.payload';

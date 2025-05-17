@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminAuthRepository } from '../src/domain/admin-auth.repository';
+import { AdminAuthRepository } from '../domain/admin-auth.repository';
 import { AdminDocument } from '@app/schema/schemas/admin.schema';
 import { AdminModel } from '@app/schema/schemas/admin.schema';
-import { Admin } from '../src/domain/admin';
+import { Admin } from '../domain/admin';
 
 @Injectable()
 export class MongooseAdminAuthRepository implements AdminAuthRepository {
