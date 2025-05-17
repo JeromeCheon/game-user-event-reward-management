@@ -1,7 +1,7 @@
 import { AggregateRoot } from '@app/common/base/aggregate-root';
-import { Role } from '@app/common/role';
+import { Role } from '@app/common/variable/role';
 import { Password } from './password';
-import { WorldServerType } from '@app/common/world-server-type';
+import { WorldServerType } from '@app/common/variable/world-server-type';
 
 export interface UserProps {
   account: string;
@@ -12,6 +12,7 @@ export interface UserProps {
   createdAt: Date;
   updatedAt: Date;
   isLoggedIn: boolean;
+  lastLoginAt?: Date;
 }
 
 export class User<T extends UserProps> extends AggregateRoot<T> {
@@ -51,6 +52,10 @@ export class User<T extends UserProps> extends AggregateRoot<T> {
     return this.props.baseServer;
   }
 
+  get lastLoginAt(): Date | undefined {
+    return this.props.lastLoginAt;
+  }
+
   static create(props: UserProps, id?: string): User<UserProps> {
     const user = new User(props, id);
     return user;
@@ -59,5 +64,16 @@ export class User<T extends UserProps> extends AggregateRoot<T> {
   static from(props: UserProps, id?: string): User<UserProps> {
     const user = new User(props, id);
     return user;
+  }
+
+  login(): void {
+    this.props.isLoggedIn = true;
+    this.props.updatedAt = new Date();
+    this.props.lastLoginAt = new Date();
+  }
+
+  logout(): void {
+    this.props.isLoggedIn = false;
+    this.props.updatedAt = new Date();
   }
 }

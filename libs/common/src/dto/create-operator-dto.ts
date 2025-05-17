@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber } from 'class-validator';
 import { CreateUserDto } from './create-user-dto';
-import { MapleJobTitle, MapleJobType } from '../maple-job-info';
+import { MapleJobTitle, MapleJobType } from '../variable/maple-job-info';
 
 export class CreateOperatorDto extends CreateUserDto {
   @IsEnum(MapleJobTitle)

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminAuthRepository } from '../src/domain/admin-auth.repository';
+import { AdminAuthRepository } from '../domain/admin-auth.repository';
 import { AdminDocument } from '@app/schema/schemas/admin.schema';
 import { AdminModel } from '@app/schema/schemas/admin.schema';
-import { Admin } from '../src/domain/admin';
+import { Admin } from '../domain/admin';
 
 @Injectable()
 export class MongooseAdminAuthRepository implements AdminAuthRepository {
@@ -23,5 +23,20 @@ export class MongooseAdminAuthRepository implements AdminAuthRepository {
     if (!doc) return null;
     const userDoc = Object.assign(new AdminDocument(), doc);
     return userDoc.toDomain();
+  }
+
+  async findByAccountAndName(
+    account: string,
+    name: string,
+  ): Promise<Admin | null> {
+    const doc = await this.adminModel.findOne({ account, name }).lean();
+    if (!doc) return null;
+    const userDoc = Object.assign(new AdminDocument(), doc);
+    return userDoc.toDomain();
+  }
+
+  async update(user: Admin): Promise<void> {
+    const userDoc = AdminDocument.fromDomain(user);
+    await this.adminModel.updateOne({ _id: userDoc._id }, userDoc);
   }
 }

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserAuthService } from './application/user-auth.service';
 import { AuthServerController } from './presentation/auth-server.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { USER_AUTH_REPOSITORY } from './domain/user-auth.repository';
-import { MongooseUserAuthRepository } from '../infra/mongoose.user-auth.repository';
+import { GAME_USER_AUTH_REPOSITORY } from './domain/game-user-auth.repository';
+import { MongooseGameUserAuthRepository } from './infra/mongoose.game-user-auth.repository';
 import {
   GameUserDocument,
   GameUserSchema,
@@ -14,38 +14,48 @@ import { AdminSchema } from '@app/schema/schemas/admin.schema';
 import { OperatorSchema } from '@app/schema/schemas/operator.schema';
 import { AdminDocument } from '@app/schema/schemas/admin.schema';
 import { AuditorDocument } from '@app/schema/schemas/auditor.schema';
-import { MongooseAdminAuthRepository } from '../infra/mongoose.admin-auth.repository';
+import { MongooseAdminAuthRepository } from './infra/mongoose.admin-auth.repository';
 import { OPERATOR_AUTH_REPOSITORY } from './domain/operator-auth.repository';
 import { ADMIN_AUTH_REPOSITORY } from './domain/admin-auth.repository';
-import { MongooseOperatorAuthRepository } from '../infra/mongoose.operator-auth.repository';
-import { MongooseAuditorAuthRepository } from '../infra/mongoose.auditor-auth.repository';
+import { MongooseOperatorAuthRepository } from './infra/mongoose.operator-auth.repository';
+import { MongooseAuditorAuthRepository } from './infra/mongoose.auditor-auth.repository';
 import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth.repository';
 import { AdminAuthService } from './application/admin-auth.service';
 import { OperatorAuthService } from './application/operator-auth.service';
 import { AuditorAuthService } from './application/auditor-auth.service';
 import config from '@app/common';
-
-const { username, password, host, port, userdb } = config.get('mongodb');
-const uri = `mongodb://${username}:${password}@${host}:${port}`;
+import { UserSessionService } from './application/user-session-service';
+import { AdminSessionService } from './application/admin-session-service';
+import { OperatorSessionService } from './application/operator-session-service';
+import { AuditorSessionService } from './application/auditor-session-service';
+import { JwtSessionPolicy } from './infra/jwt.session-policy';
+import { SESSION_POLICY } from './domain/session-policy';
+import { JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
+import { ConnectionUrl } from '@app/common/variable/db-connection';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    JwtModule.register({
+      secret: config.get('jwt.secret'),
+      signOptions: { expiresIn: config.get('jwt.expiresIn') },
+    }),
+    MongooseModule.forRoot(ConnectionUrl, {
       authSource: 'admin',
       tls: false,
       connectionName: 'User',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(ConnectionUrl, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Admin',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(ConnectionUrl, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Auditor',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(ConnectionUrl, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Operator',
@@ -73,9 +83,14 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
     AdminAuthService,
     AuditorAuthService,
     OperatorAuthService,
+    UserSessionService,
+    AdminSessionService,
+    OperatorSessionService,
+    AuditorSessionService,
+    JwtService,
     {
-      provide: USER_AUTH_REPOSITORY,
-      useClass: MongooseUserAuthRepository,
+      provide: GAME_USER_AUTH_REPOSITORY,
+      useClass: MongooseGameUserAuthRepository,
     },
     {
       provide: ADMIN_AUTH_REPOSITORY,
@@ -88,6 +103,10 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
     {
       provide: AUDITOR_AUTH_REPOSITORY,
       useClass: MongooseAuditorAuthRepository,
+    },
+    {
+      provide: SESSION_POLICY,
+      useClass: JwtSessionPolicy,
     },
   ],
 })

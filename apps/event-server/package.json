@@ -1,0 +1,13 @@
+{
+  "name": "event-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "cd ../.. && nest build event-server",
+    "dev": "cd ../.. && nest start event-server --watch",
+    "start:dev": "cd ../.. && nest start event-server --watch",
+    "start:prod": "node ../../dist/apps/event-server/main",
+    "test": "jest",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  }
+} 

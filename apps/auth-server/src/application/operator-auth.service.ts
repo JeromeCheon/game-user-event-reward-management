@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Password } from '../domain/password';
 import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
-import { Role } from '@app/common/role';
+import { Role } from '@app/common/variable/role';
 import { OperatorAuthRepository } from '../domain/operator-auth.repository';
 import { OPERATOR_AUTH_REPOSITORY } from '../domain/operator-auth.repository';
 import { Operator } from '../domain/operator';

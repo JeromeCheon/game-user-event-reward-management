@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Auditor } from '../src/domain/auditor';
+import { Auditor } from '../domain/auditor';
 import { AuditorDocument } from '@app/schema/schemas/auditor.schema';
 import { AuditorModel } from '@app/schema/schemas/auditor.schema';
-import { AuditorAuthRepository } from '../src/domain/auditor-auth.repository';
+import { AuditorAuthRepository } from '../domain/auditor-auth.repository';
 
 @Injectable()
 export class MongooseAuditorAuthRepository implements AuditorAuthRepository {
@@ -23,5 +23,20 @@ export class MongooseAuditorAuthRepository implements AuditorAuthRepository {
     if (!doc) return null;
     const userDoc = Object.assign(new AuditorDocument(), doc);
     return userDoc.toDomain();
+  }
+
+  async findByAccountAndName(
+    account: string,
+    name: string,
+  ): Promise<Auditor | null> {
+    const doc = await this.auditorModel.findOne({ account, name }).lean();
+    if (!doc) return null;
+    const userDoc = Object.assign(new AuditorDocument(), doc);
+    return userDoc.toDomain();
+  }
+
+  async update(user: Auditor): Promise<void> {
+    const userDoc = AuditorDocument.fromDomain(user);
+    await this.auditorModel.updateOne({ _id: userDoc._id }, userDoc);
   }
 }

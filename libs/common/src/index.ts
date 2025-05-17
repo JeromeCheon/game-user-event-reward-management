@@ -26,10 +26,22 @@ const config = convict({
       default: 27017,
       env: 'MONGODB_PORT',
     },
-    userdb: {
+    db: {
       format: String,
-      default: 'User',
-      env: 'MONGODB_USERDB',
+      default: 'maple-story-user-event-reward-management',
+      env: 'MONGODB_DB',
+    },
+  },
+  jwt: {
+    secret: {
+      format: String,
+      default: 'secretKey',
+      env: 'JWT_SECRET',
+    },
+    expiresIn: {
+      format: Number,
+      default: 3600,
+      env: 'JWT_EXPIRES_IN',
     },
   },
 });
@@ -39,5 +51,3 @@ config.loadFile(path.join(process.cwd(), 'libs/common/src/config/config.yaml'));
 config.validate({ allowed: 'strict' });
 
 export default config;
-export * from './common.module';
-export * from './common.service';

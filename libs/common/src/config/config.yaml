@@ -3,4 +3,8 @@ mongodb:
   password: story
   host: localhost
   port: 27017
-  userdb: User
+  db: maple-story-user-event-reward-management
+
+jwt:
+  secret: secretKey
+  expiresIn: 3600

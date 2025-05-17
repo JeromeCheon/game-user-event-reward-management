@@ -1,0 +1,13 @@
+{
+  "name": "gateway-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "cd ../.. && nest build gateway-server",
+    "dev": "cd ../.. && nest start gateway-server --watch",
+    "start:dev": "cd ../.. && nest start gateway-server --watch",
+    "start:prod": "node ../../dist/apps/gateway-server/main",
+    "test": "jest",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  }
+} 

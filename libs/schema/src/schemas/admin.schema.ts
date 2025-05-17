@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Password } from '../../../../apps/auth-server/src/domain/password';
-import { Role } from '@app/common/role';
-import { WorldServerType } from '@app/common/world-server-type';
+import { Role } from '@app/common/variable/role';
+import { WorldServerType } from '@app/common/variable/world-server-type';
 import { Admin } from 'apps/auth-server/src/domain/admin';
 
 @Schema({
-  collection: 'admin',
+  collection: 'admins',
 })
 export class AdminDocument {
   @Prop({ type: String })

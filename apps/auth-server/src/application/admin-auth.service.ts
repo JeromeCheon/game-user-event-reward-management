@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Password } from '../domain/password';
 import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
-import { Role } from '@app/common/role';
+import { Role } from '@app/common/variable/role';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { ADMIN_AUTH_REPOSITORY } from '../domain/admin-auth.repository';
 import { AdminAuthRepository } from '../domain/admin-auth.repository';

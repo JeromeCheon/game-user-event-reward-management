@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { AUTH_SERVER } from '@app/common/symbols';
+import { AUTH_SERVER } from '@app/common/variable/symbols';
 import { firstValueFrom } from 'rxjs';
-import { AUTH_SERVER_COMMAND } from '@app/common/auth-server-command';
+import { AUTH_SERVER_COMMAND } from '@app/common/variable/auth-server-command';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
+import { LoginUserDto } from '@app/common/dto/login-user-dto';
 
 @Injectable()
 export class IdentityAccessService {
@@ -32,6 +33,30 @@ export class IdentityAccessService {
   async createOperator(body: CreateOperatorDto): Promise<string> {
     return await firstValueFrom(
       this.authClient.send({ cmd: AUTH_SERVER_COMMAND.CREATE_OPERATOR }, body),
+    );
+  }
+
+  async loginUser(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_USER }, body),
+    );
+  }
+
+  async loginAdmin(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_ADMIN }, body),
+    );
+  }
+
+  async loginOperator(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_OPERATOR }, body),
+    );
+  }
+
+  async loginAuditor(body: LoginUserDto): Promise<string> {
+    return await firstValueFrom(
+      this.authClient.send({ cmd: AUTH_SERVER_COMMAND.LOGIN_AUDITOR }, body),
     );
   }
 }
