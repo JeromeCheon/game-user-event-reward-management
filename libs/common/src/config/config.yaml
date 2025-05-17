@@ -4,3 +4,7 @@ mongodb:
   host: localhost
   port: 27017
   userdb: User
+
+jwt:
+  secret: secretKey
+  expiresIn: 3600

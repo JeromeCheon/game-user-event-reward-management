@@ -32,6 +32,18 @@ const config = convict({
       env: 'MONGODB_USERDB',
     },
   },
+  jwt: {
+    secret: {
+      format: String,
+      default: 'secretKey',
+      env: 'JWT_SECRET',
+    },
+    expiresIn: {
+      format: Number,
+      default: 3600,
+      env: 'JWT_EXPIRES_IN',
+    },
+  },
 });
 
 config.loadFile(path.join(process.cwd(), 'libs/common/src/config/config.yaml'));
