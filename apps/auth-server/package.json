@@ -1,0 +1,13 @@
+{
+  "name": "auth-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "cd ../.. && nest build auth-server",
+    "dev": "cd ../.. && nest start auth-server --watch",
+    "start:dev": "cd ../.. && nest start auth-server --watch",
+    "start:prod": "node ../../dist/apps/auth-server/main",
+    "test": "jest",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  }
+} 
