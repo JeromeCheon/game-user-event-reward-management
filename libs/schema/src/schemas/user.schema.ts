@@ -21,7 +21,7 @@ export const MapleJobInfoSchema =
   SchemaFactory.createForClass(MapleJobInfoDocument);
 
 @Schema({
-  collection: 'user',
+  collection: 'game-users',
 })
 export class GameUserDocument {
   @Prop({ type: String })

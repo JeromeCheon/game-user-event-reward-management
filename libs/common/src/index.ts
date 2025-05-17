@@ -26,10 +26,10 @@ const config = convict({
       default: 27017,
       env: 'MONGODB_PORT',
     },
-    userdb: {
+    db: {
       format: String,
-      default: 'User',
-      env: 'MONGODB_USERDB',
+      default: 'maple-story-user-event-reward-management',
+      env: 'MONGODB_DB',
     },
   },
   jwt: {

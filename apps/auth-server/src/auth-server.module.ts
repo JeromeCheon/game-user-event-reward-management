@@ -33,7 +33,7 @@ import { SESSION_POLICY } from './domain/session-policy';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 
-const { username, password, host, port, userdb } = config.get('mongodb');
+const { username, password, host, port, db } = config.get('mongodb');
 const uri = `mongodb://${username}:${password}@${host}:${port}`;
 
 @Module({
@@ -42,22 +42,22 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
       secret: config.get('jwt.secret'),
       signOptions: { expiresIn: config.get('jwt.expiresIn') },
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(`${uri}/${db}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'User',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(`${uri}/${db}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Admin',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(`${uri}/${db}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Auditor',
     }),
-    MongooseModule.forRoot(`${uri}/${userdb}`, {
+    MongooseModule.forRoot(`${uri}/${db}`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Operator',

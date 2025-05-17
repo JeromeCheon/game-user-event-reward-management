@@ -7,7 +7,7 @@ import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
 
-@ApiTags('v1/auth')
+@ApiTags('auth')
 @Controller('v1/auth')
 @UseFilters(CustomHttpExceptionFilter)
 export class IdentityAccessController {

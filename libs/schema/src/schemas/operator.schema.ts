@@ -8,7 +8,7 @@ import { MapleJobInfoDocument } from './user.schema';
 import { Operator } from 'apps/auth-server/src/domain/operator';
 
 @Schema({
-  collection: 'operator',
+  collection: 'operators',
 })
 export class OperatorDocument {
   @Prop({ type: String })

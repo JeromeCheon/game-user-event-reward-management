@@ -5,7 +5,7 @@ import { WorldServerType } from '@app/common/world-server-type';
 import { Admin } from 'apps/auth-server/src/domain/admin';
 
 @Schema({
-  collection: 'admin',
+  collection: 'admins',
 })
 export class AdminDocument {
   @Prop({ type: String })
