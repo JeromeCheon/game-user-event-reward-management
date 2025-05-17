@@ -24,4 +24,19 @@ export class MongooseOperatorAuthRepository implements OperatorAuthRepository {
     const userDoc = Object.assign(new OperatorDocument(), doc);
     return userDoc.toDomain();
   }
+
+  async findByAccountAndName(
+    account: string,
+    name: string,
+  ): Promise<Operator | null> {
+    const doc = await this.operatorModel.findOne({ account, name }).lean();
+    if (!doc) return null;
+    const userDoc = Object.assign(new OperatorDocument(), doc);
+    return userDoc.toDomain();
+  }
+
+  async update(user: Operator): Promise<void> {
+    const userDoc = OperatorDocument.fromDomain(user);
+    await this.operatorModel.updateOne({ _id: userDoc._id }, userDoc);
+  }
 }

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserAuthService } from './application/user-auth.service';
 import { AuthServerController } from './presentation/auth-server.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { USER_AUTH_REPOSITORY } from './domain/user-auth.repository';
-import { MongooseUserAuthRepository } from '../infra/mongoose.user-auth.repository';
+import { GAME_USER_AUTH_REPOSITORY } from './domain/game-user-auth.repository';
+import { MongooseGameUserAuthRepository } from '../infra/mongoose.game-user-auth.repository';
 import {
   GameUserDocument,
   GameUserSchema,
@@ -74,8 +74,8 @@ const uri = `mongodb://${username}:${password}@${host}:${port}`;
     AuditorAuthService,
     OperatorAuthService,
     {
-      provide: USER_AUTH_REPOSITORY,
-      useClass: MongooseUserAuthRepository,
+      provide: GAME_USER_AUTH_REPOSITORY,
+      useClass: MongooseGameUserAuthRepository,
     },
     {
       provide: ADMIN_AUTH_REPOSITORY,

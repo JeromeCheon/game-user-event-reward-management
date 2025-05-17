@@ -1,8 +1,6 @@
-import { Repository } from '@app/common/base/repository';
 import { Operator } from './operator';
+import { UserAuthRepository } from './user-auth.repository';
 
 export const OPERATOR_AUTH_REPOSITORY = Symbol('OPERATOR_AUTH_REPOSITORY');
 
-export interface OperatorAuthRepository extends Repository<Operator> {
-  findByName(name: string): Promise<Operator | null>;
-}
+export interface OperatorAuthRepository extends UserAuthRepository<Operator> {}

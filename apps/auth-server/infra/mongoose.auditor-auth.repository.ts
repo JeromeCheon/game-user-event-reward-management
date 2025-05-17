@@ -24,4 +24,19 @@ export class MongooseAuditorAuthRepository implements AuditorAuthRepository {
     const userDoc = Object.assign(new AuditorDocument(), doc);
     return userDoc.toDomain();
   }
+
+  async findByAccountAndName(
+    account: string,
+    name: string,
+  ): Promise<Auditor | null> {
+    const doc = await this.auditorModel.findOne({ account, name }).lean();
+    if (!doc) return null;
+    const userDoc = Object.assign(new AuditorDocument(), doc);
+    return userDoc.toDomain();
+  }
+
+  async update(user: Auditor): Promise<void> {
+    const userDoc = AuditorDocument.fromDomain(user);
+    await this.auditorModel.updateOne({ _id: userDoc._id }, userDoc);
+  }
 }

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  USER_AUTH_REPOSITORY,
-  UserAuthRepository,
-} from '../domain/user-auth.repository';
+  GAME_USER_AUTH_REPOSITORY,
+  GameUserAuthRepository,
+} from '../domain/game-user-auth.repository';
 import { Password } from '../domain/password';
 import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
 import { Role } from '@app/common/role';
@@ -14,8 +14,8 @@ import { MapleJobType } from '@app/common/maple-job-info';
 @Injectable()
 export class UserAuthService {
   constructor(
-    @Inject(USER_AUTH_REPOSITORY)
-    private readonly userAuthRepository: UserAuthRepository,
+    @Inject(GAME_USER_AUTH_REPOSITORY)
+    private readonly userAuthRepository: GameUserAuthRepository,
   ) {}
 
   async createUser(body: CreateGameUserDto): Promise<string> {

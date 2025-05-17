@@ -1,8 +1,6 @@
-import { Repository } from '@app/common/base/repository';
 import { Admin } from './admin';
+import { UserAuthRepository } from './user-auth.repository';
 
 export const ADMIN_AUTH_REPOSITORY = Symbol('ADMIN_AUTH_REPOSITORY');
 
-export interface AdminAuthRepository extends Repository<Admin> {
-  findByName(name: string): Promise<Admin | null>;
-}
+export interface AdminAuthRepository extends UserAuthRepository<Admin> {}

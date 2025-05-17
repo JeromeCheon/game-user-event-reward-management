@@ -24,8 +24,8 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Matches(/^[가-힣]{2,6}$|^[A-Za-z]{2,12}$/, {
-    message: '이름은 한글 2~6자 또는 영문 2~12자, 특수문자 및 숫자 불가',
+  @Matches(/^[가-힣]{2,6}$|^[가-힣A-Za-z0-9]{2,12}$/, {
+    message: '이름은 한글 2~6자 또는 한+영+숫자 2~12자, 특수문자 불가',
   })
   @ApiProperty({ description: '이름', example: '홍길동 또는 JohnDoe' })
   name: string;

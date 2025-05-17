@@ -24,4 +24,19 @@ export class MongooseAdminAuthRepository implements AdminAuthRepository {
     const userDoc = Object.assign(new AdminDocument(), doc);
     return userDoc.toDomain();
   }
+
+  async findByAccountAndName(
+    account: string,
+    name: string,
+  ): Promise<Admin | null> {
+    const doc = await this.adminModel.findOne({ account, name }).lean();
+    if (!doc) return null;
+    const userDoc = Object.assign(new AdminDocument(), doc);
+    return userDoc.toDomain();
+  }
+
+  async update(user: Admin): Promise<void> {
+    const userDoc = AdminDocument.fromDomain(user);
+    await this.adminModel.updateOne({ _id: userDoc._id }, userDoc);
+  }
 }
