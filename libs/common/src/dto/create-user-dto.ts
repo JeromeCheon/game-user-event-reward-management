@@ -1,11 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  Length,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Length, Matches } from 'class-validator';
+import { WorldServerType } from '../world-server-type';
 
 export class CreateUserDto {
   @IsString()
@@ -15,16 +10,27 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(6, 12)
-  @ApiProperty({ description: '비밀번호' })
-  // TODO: 비밀번호 정규식 추가
+  @Length(8, 20)
+  @Matches(/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,20}$/, {
+    message:
+      '비밀번호는 8~20자, 대문자 1개 이상, 특수문자 1개 이상을 포함해야 합니다.',
+  })
+  @ApiProperty({
+    description:
+      '비밀번호는 8~20자, 대문자 1개 이상, 특수문자 1개 이상을 포함해야 합니다.',
+    example: 'Password123!',
+  })
   password: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(6)
-  @MinLength(2)
-  @ApiProperty({ description: '이름' })
-  // TODO: 이름 정규식 추가
+  @Matches(/^[가-힣]{2,6}$|^[A-Za-z]{2,12}$/, {
+    message: '이름은 한글 2~6자 또는 영문 2~12자, 특수문자 및 숫자 불가',
+  })
+  @ApiProperty({ description: '이름', example: '홍길동 또는 JohnDoe' })
   name: string;
+
+  @IsEnum(WorldServerType)
+  @ApiProperty({ description: '기본 월드 서버', enum: WorldServerType })
+  baseServer: WorldServerType;
 }

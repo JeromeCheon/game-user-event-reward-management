@@ -3,13 +3,38 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AUTH_SERVER_COMMAND } from '@app/common/auth-server-command';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { UserAuthService } from '../application/user-auth.service';
+import { AdminAuthService } from '../application/admin-auth.service';
+import { AuditorAuthService } from '../application/auditor-auth.service';
+import { OperatorAuthService } from '../application/operator-auth.service';
+import { CreateUserDto } from '@app/common/dto/create-user-dto';
+import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 
 @Controller()
 export class AuthServerController {
-  constructor(private readonly authServerService: UserAuthService) {}
+  constructor(
+    private readonly userAuthService: UserAuthService,
+    private readonly adminAuthService: AdminAuthService,
+    private readonly auditorAuthService: AuditorAuthService,
+    private readonly operatorAuthService: OperatorAuthService,
+  ) {}
 
   @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_USER })
   createUser(@Payload() body: CreateGameUserDto): Promise<string> {
-    return this.authServerService.createUser(body);
+    return this.userAuthService.createUser(body);
+  }
+
+  @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_ADMIN })
+  createAdmin(@Payload() body: CreateUserDto): Promise<string> {
+    return this.adminAuthService.createAdmin(body);
+  }
+
+  @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_AUDITOR })
+  createAuditor(@Payload() body: CreateUserDto): Promise<string> {
+    return this.auditorAuthService.createAuditor(body);
+  }
+
+  @MessagePattern({ cmd: AUTH_SERVER_COMMAND.CREATE_OPERATOR })
+  createOperator(@Payload() body: CreateOperatorDto): Promise<string> {
+    return this.operatorAuthService.createOperator(body);
   }
 }

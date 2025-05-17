@@ -42,6 +42,7 @@ export class AdminDocument {
     doc.password = user.password.value;
     doc.name = user.name;
     doc.role = user.role;
+    doc.baseServer = user.baseServer;
     doc.createdAt = user.createdAt;
     doc.updatedAt = user.updatedAt;
     doc.isLoggedIn = user.isLoggedIn;

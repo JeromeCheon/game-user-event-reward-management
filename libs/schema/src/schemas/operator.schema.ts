@@ -52,6 +52,7 @@ export class OperatorDocument {
     doc.name = user.name;
     doc.role = user.role;
     doc.level = user.level;
+    doc.baseServer = user.baseServer;
     doc.createdAt = user.createdAt;
     doc.updatedAt = user.updatedAt;
     doc.isLoggedIn = user.isLoggedIn;

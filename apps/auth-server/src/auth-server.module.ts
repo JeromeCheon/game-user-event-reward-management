@@ -20,6 +20,9 @@ import { ADMIN_AUTH_REPOSITORY } from './domain/admin-auth.repository';
 import { MongooseOperatorAuthRepository } from '../infra/mongoose.operator-auth.repository';
 import { MongooseAuditorAuthRepository } from '../infra/mongoose.auditor-auth.repository';
 import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth.repository';
+import { AdminAuthService } from './application/admin-auth.service';
+import { OperatorAuthService } from './application/operator-auth.service';
+import { AuditorAuthService } from './application/auditor-auth.service';
 
 // TODO: 환경변수로 변경
 const uri = 'mongodb://maple:story@localhost:27017';
@@ -31,17 +34,17 @@ const uri = 'mongodb://maple:story@localhost:27017';
       tls: false,
       connectionName: 'User',
     }),
-    MongooseModule.forRoot(`${uri}/Admin`, {
+    MongooseModule.forRoot(`${uri}/User`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Admin',
     }),
-    MongooseModule.forRoot(`${uri}/Auditor`, {
+    MongooseModule.forRoot(`${uri}/User`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Auditor',
     }),
-    MongooseModule.forRoot(`${uri}/Operator`, {
+    MongooseModule.forRoot(`${uri}/User`, {
       authSource: 'admin',
       tls: false,
       connectionName: 'Operator',
@@ -66,6 +69,9 @@ const uri = 'mongodb://maple:story@localhost:27017';
   controllers: [AuthServerController],
   providers: [
     UserAuthService,
+    AdminAuthService,
+    AuditorAuthService,
+    OperatorAuthService,
     {
       provide: USER_AUTH_REPOSITORY,
       useClass: MongooseUserAuthRepository,

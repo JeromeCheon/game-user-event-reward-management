@@ -1,5 +1,3 @@
-import { IsEnum, IsNumber } from 'class-validator';
-
 export enum MapleJobType {
   BEGINNER = 'beginner',
   WORRIER = 'worrier',
@@ -17,12 +15,9 @@ export enum MapleJobTitle {
 }
 
 export class MapleJobInfo {
-  @IsEnum(MapleJobType)
   type: MapleJobType;
 
-  @IsEnum(MapleJobTitle)
   title: MapleJobTitle;
 
-  @IsNumber()
   degree: 0 | 1 | 2 | 3 | 4 | 5;
 }
