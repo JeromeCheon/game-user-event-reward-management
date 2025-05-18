@@ -4,6 +4,7 @@ import { EVENT_SERVER } from '@app/common/variable/symbols';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 
 @Injectable()
 export class RoutingEventService {
@@ -22,6 +23,15 @@ export class RoutingEventService {
       this.eventClient.send(
         { cmd: EVENT_SERVER_COMMAND.GET_EVENT_BY_ID },
         { id, user },
+      ),
+    );
+  }
+
+  async updateEventActive(id: string, dto: UpdateEventActiveDto) {
+    return await firstValueFrom(
+      this.eventClient.send(
+        { cmd: EVENT_SERVER_COMMAND.UPDATE_EVENT_ACTIVE },
+        { id, dto },
       ),
     );
   }

@@ -4,6 +4,7 @@ import {
   Get,
   Logger,
   Param,
+  Patch,
   Post,
   UseFilters,
   UseGuards,
@@ -26,6 +27,7 @@ import { Roles } from '@app/common/decorator/roles';
 import { AuthUser } from '@app/common/decorator/auth-user';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
+import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 
 @ApiTags('Events')
 @UseGuards(AuthGuard('jwt'))
@@ -94,5 +96,36 @@ export class RoutingEventController {
       `${user.role} ${user.id} 님이 이벤트(ID: ${id})를 조회하셨습니다.`,
     );
     return event;
+  }
+
+  @Patch(':id/active')
+  @ApiOperation({ summary: '이벤트 활성화 상태 변경' })
+  @ApiParam({
+    name: 'id',
+    description: '수정할 이벤트 ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiBody({
+    type: UpdateEventActiveDto,
+    description: '이벤트 활성화 상태 정보',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '이벤트 활성화 상태 변경 성공',
+    type: Boolean,
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async updateEventActive(
+    @Param('id') id: string,
+    @Body() dto: UpdateEventActiveDto,
+    @AuthUser() user: AuthUserInfo,
+  ) {
+    const result = await this.routingEventService.updateEventActive(id, dto);
+    this.logger.log(
+      `${user.role} ${user.id} 님이 이벤트(ID: ${id})의 활성화 상태를 ${dto.isActive ? '활성화' : '비활성화'}로 변경하셨습니다.`,
+    );
+    return result;
   }
 }
