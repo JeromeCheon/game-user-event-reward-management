@@ -7,4 +7,4 @@ mongodb:
 
 jwt:
   secret: secretKey
-  expiresIn: 3600
+  expiresIn: 86400

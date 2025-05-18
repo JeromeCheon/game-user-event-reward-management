@@ -4,6 +4,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EVENT_REPOSITORY, EventRepository } from '../domain/event.repository';
 import { Event } from '../domain/event';
 import { EventCondition } from '../domain/event-condition';
+import { Role } from '@app/common/variable/role';
+import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 
 @Injectable()
 export class EventServerService {
@@ -12,8 +14,15 @@ export class EventServerService {
     private readonly eventRepository: EventRepository,
   ) {}
 
-  async getEvents(): Promise<string[]> {
-    return [];
+  async getEvents({ role }: AuthUserInfo): Promise<EventViewModel[]> {
+    const events = await this.eventRepository.findAll();
+
+    if (role === Role.USER) {
+      return events
+        .filter((event) => event.isActive)
+        .map((event) => EventViewModel.forGameUser(event));
+    }
+    return events.map((event) => EventViewModel.forStaffs(event));
   }
 
   async createEvent({

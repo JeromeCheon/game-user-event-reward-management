@@ -23,9 +23,16 @@ export class MongooseEventRepository implements EventRepository {
     await this.eventModel.updateOne({ _id: eventDoc._id }, eventDoc);
   }
 
+  async findAll(): Promise<Event[]> {
+    const docs = await this.eventModel.find().lean();
+    return docs.map((doc) =>
+      Object.assign(new EventDocument(), doc).toDomain(),
+    );
+  }
+
   async findById(id: string): Promise<Event | null> {
-    const eventDoc = await this.eventModel.findById(id);
-    if (!eventDoc) return null;
-    return eventDoc.toDomain();
+    const doc = await this.eventModel.findById(id).lean();
+    if (!doc) return null;
+    return Object.assign(new EventDocument(), doc).toDomain();
   }
 }
