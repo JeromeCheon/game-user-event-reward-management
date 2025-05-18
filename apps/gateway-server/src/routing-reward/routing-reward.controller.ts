@@ -17,6 +17,7 @@ import { Roles } from '@app/common/decorator/roles';
 import { CreateRewardDto } from '@app/common/dto/create-reward.dto';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { AuthUser } from '@app/common/decorator/auth-user';
+import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 
 @ApiTags('Reward')
 @UseGuards(AuthGuard('jwt'))
@@ -42,5 +43,26 @@ export class RoutingRewardController {
       `${user.role} ${user.id} 님이 보상을 생성하셨습니다. ID: ${rewardId}`,
     );
     return rewardId;
+  }
+
+  @Post('item')
+  @ApiOperation({ summary: '보상 아이템 생성' })
+  @ApiBody({
+    type: CreateRewardItemDto,
+    description: '보상 아이템 생성에 필요한 정보',
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async createRewardItem(
+    @Body() createRewardItemDto: CreateRewardItemDto,
+    @AuthUser() user: AuthUserInfo,
+  ): Promise<string> {
+    const rewardItemId =
+      await this.routingRewardService.createRewardItem(createRewardItemDto);
+    this.logger.log(
+      `${user.role} ${user.id} 님이 보상 아이템을 생성하셨습니다. ID: ${rewardItemId}`,
+    );
+    return rewardItemId;
   }
 }

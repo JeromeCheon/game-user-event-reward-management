@@ -1,5 +1,4 @@
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
-import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { EVENT_SERVER_COMMAND } from '@app/common/variable/event-server-command';
 import { EVENT_SERVER } from '@app/common/variable/symbols';
 import { Inject, Injectable } from '@nestjs/common';
@@ -21,15 +20,6 @@ export class RoutingEventService {
   async createEvent(dto: unknown) {
     return await firstValueFrom(
       this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.CREATE_EVENT }, dto),
-    );
-  }
-
-  async createRewardItem(dto: CreateRewardItemDto) {
-    return await firstValueFrom(
-      this.eventClient.send(
-        { cmd: EVENT_SERVER_COMMAND.CREATE_REWARD_ITEM },
-        dto,
-      ),
     );
   }
 }
