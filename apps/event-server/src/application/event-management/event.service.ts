@@ -11,6 +11,7 @@ import { Role } from '@app/common/variable/role';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 import { RewardRepository } from '../../domain/reward/reward.repository';
 import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
+import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
 
 @Injectable()
 export class EventService {
@@ -48,6 +49,28 @@ export class EventService {
         rewards.find((reward) => reward.eventId === event.id)?.items ?? [],
       ),
     );
+  }
+
+  async getEventById({
+    id,
+    user,
+  }: {
+    id: string;
+    user: AuthUserInfo;
+  }): Promise<EventViewModel> {
+    const event = await this.eventRepository.findById(id);
+
+    if (!event) {
+      throw new NotFoundEventException(`이벤트(ID: ${id})를 찾을 수 없습니다.`);
+    }
+
+    const rewards = await this.rewardRepository.findByEventIds([id]);
+    const rewardItems =
+      rewards.find((reward) => reward.eventId === id)?.items || [];
+
+    return user.role === Role.USER
+      ? EventViewModel.forGameUser(event, rewardItems)
+      : EventViewModel.forStaffs(event, rewardItems);
   }
 
   async createEvent({

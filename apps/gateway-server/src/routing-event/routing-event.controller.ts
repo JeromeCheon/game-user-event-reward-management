@@ -3,12 +3,19 @@ import {
   Controller,
   Get,
   Logger,
+  Param,
   Post,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { RoutingEventService } from './routing-event.service';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http-exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiAuthSecurity } from '@app/common/decorator/api-security';
@@ -64,5 +71,28 @@ export class RoutingEventController {
       `${user.role} ${user.id} 님이 이벤트 목록을 조회하셨습니다. 조회된 이벤트수: ${events.length}`,
     );
     return events;
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: '이벤트 상세 조회' })
+  @ApiParam({
+    name: 'id',
+    description: '조회할 이벤트 ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '이벤트 조회 성공',
+    type: EventViewModel,
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR, Role.USER)
+  async getEventById(@Param('id') id: string, @AuthUser() user: AuthUserInfo) {
+    const event = await this.routingEventService.getEventById(id, user);
+    this.logger.log(
+      `${user.role} ${user.id} 님이 이벤트(ID: ${id})를 조회하셨습니다.`,
+    );
+    return event;
   }
 }
