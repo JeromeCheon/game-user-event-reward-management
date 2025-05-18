@@ -12,6 +12,7 @@ import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 import { RewardRepository } from '../../domain/reward/reward.repository';
 import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
 import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
+import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 
 @Injectable()
 export class EventService {
@@ -61,7 +62,7 @@ export class EventService {
     const event = await this.eventRepository.findById(id);
 
     if (!event) {
-      throw new NotFoundEventException(`이벤트(ID: ${id})를 찾을 수 없습니다.`);
+      throw new NotFoundEventException(id);
     }
 
     const rewards = await this.rewardRepository.findByEventIds([id]);
@@ -71,6 +72,23 @@ export class EventService {
     return user.role === Role.USER
       ? EventViewModel.forGameUser(event, rewardItems)
       : EventViewModel.forStaffs(event, rewardItems);
+  }
+
+  async updateEventActive({
+    id,
+    dto,
+  }: {
+    id: string;
+    dto: UpdateEventActiveDto;
+  }): Promise<boolean> {
+    const event = await this.eventRepository.findById(id);
+    if (!event) {
+      throw new NotFoundEventException(id);
+    }
+
+    event.updateActiveStatus(dto.isActive);
+    await this.eventRepository.update(event);
+    return true;
   }
 
   async createEvent({

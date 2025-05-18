@@ -5,6 +5,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { CreateEventDto } from '@app/common/dto/create-event-dto';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
+import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 
 @Controller()
 export class EventController {
@@ -24,6 +25,17 @@ export class EventController {
     user: AuthUserInfo;
   }): Promise<EventViewModel> {
     return await this.eventService.getEventById({ id, user });
+  }
+
+  @MessagePattern({ cmd: EVENT_SERVER_COMMAND.UPDATE_EVENT_ACTIVE })
+  async updateEventActive({
+    id,
+    dto,
+  }: {
+    id: string;
+    dto: UpdateEventActiveDto;
+  }): Promise<boolean> {
+    return await this.eventService.updateEventActive({ id, dto });
   }
 
   @MessagePattern({ cmd: EVENT_SERVER_COMMAND.CREATE_EVENT })

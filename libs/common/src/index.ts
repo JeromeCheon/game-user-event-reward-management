@@ -40,7 +40,7 @@ const config = convict({
     },
     expiresIn: {
       format: Number,
-      default: 3600,
+      default: 3000,
       env: 'JWT_EXPIRES_IN',
     },
   },

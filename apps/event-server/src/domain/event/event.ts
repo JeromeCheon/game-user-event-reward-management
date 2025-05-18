@@ -68,5 +68,11 @@ export class Event extends AggregateRoot<EventProps> {
 
   addRewardId(rewardId: string): void {
     this.props.rewardId = rewardId;
+    this.props.updatedAt = new Date();
+  }
+
+  updateActiveStatus(isActive: boolean): void {
+    this.props.isActive = isActive;
+    this.props.updatedAt = new Date();
   }
 }
