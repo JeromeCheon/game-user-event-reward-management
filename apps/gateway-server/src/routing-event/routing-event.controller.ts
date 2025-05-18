@@ -20,9 +20,9 @@ import { AuthUser } from '@app/common/decorator/auth-user';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 
-@ApiTags('Event')
+@ApiTags('Events')
 @UseGuards(AuthGuard('jwt'))
-@Controller('v1/event')
+@Controller('v1/events')
 @UseFilters(CustomHttpExceptionFilter)
 export class RoutingEventController {
   private readonly logger = new Logger(RoutingEventController.name);
@@ -48,7 +48,7 @@ export class RoutingEventController {
     return eventId;
   }
 
-  @Get('all')
+  @Get()
   @ApiOperation({ summary: '이벤트 목록 조회' })
   @ApiResponse({
     status: 200,

@@ -21,9 +21,9 @@ import { AuthUser } from '@app/common/decorator/auth-user';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 
-@ApiTags('Reward')
+@ApiTags('Rewards')
 @UseGuards(AuthGuard('jwt'))
-@Controller('v1/reward')
+@Controller('v1/rewards')
 @UseFilters(CustomHttpExceptionFilter)
 export class RoutingRewardController {
   private readonly logger = new Logger(RoutingRewardController.name);
@@ -47,7 +47,7 @@ export class RoutingRewardController {
     return rewardId;
   }
 
-  @Post('item')
+  @Post('items')
   @ApiOperation({ summary: '보상 아이템 생성' })
   @ApiBody({
     type: CreateRewardItemDto,
