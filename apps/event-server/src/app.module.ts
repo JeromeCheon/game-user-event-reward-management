@@ -19,6 +19,16 @@ import { RewardController } from './presentation/reward-management/reward.contro
 import { RewardService } from './application/reward-management/reward.service';
 import { REWARD_REPOSITORY } from './domain/reward/reward.repository';
 import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
+import { MongooseUserEventProgressRepository } from './infra/mongoose.user-event-progress.repository';
+import { USER_EVENT_PROGRESS_REPOSITORY } from './domain/user-event-progress/user-event-progress.repository';
+import { MongooseLookupUserRepository } from './infra/mongoose.lookup-user-repository';
+import { LOOKUP_USER_REPOSITORY } from './domain/user-event-progress/lookup-user-repository';
+import { UserEventProgressDocument } from '@app/schema/schemas/user-event-progress.schema';
+import { UserEventProgressSchema } from '@app/schema/schemas/user-event-progress.schema';
+import { GameUserDocument } from '@app/schema/schemas/user.schema';
+import { GameUserSchema } from '@app/schema/schemas/user.schema';
+import { OnEventActivatedSubscriber } from './subscription/on-event-activated.subscriber';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -30,13 +40,17 @@ import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
       { name: EventDocument.name, schema: EventSchema },
       { name: RewardItemDocument.name, schema: RewardItemSchema },
       { name: RewardDocument.name, schema: RewardSchema },
+      { name: UserEventProgressDocument.name, schema: UserEventProgressSchema },
+      { name: GameUserDocument.name, schema: GameUserSchema },
     ]),
+    EventEmitterModule.forRoot(),
   ],
   controllers: [EventController, RewardItemController, RewardController],
   providers: [
     EventService,
     RewardItemService,
     RewardService,
+    OnEventActivatedSubscriber,
     {
       provide: EVENT_REPOSITORY,
       useClass: MongooseEventRepository,
@@ -48,6 +62,14 @@ import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
     {
       provide: REWARD_REPOSITORY,
       useClass: MongooseRewardRepository,
+    },
+    {
+      provide: USER_EVENT_PROGRESS_REPOSITORY,
+      useClass: MongooseUserEventProgressRepository,
+    },
+    {
+      provide: LOOKUP_USER_REPOSITORY,
+      useClass: MongooseLookupUserRepository,
     },
   ],
 })
