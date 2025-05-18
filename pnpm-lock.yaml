@@ -138,6 +138,8 @@ importers:
 
   apps/auth-server: {}
 
+  apps/event-server: {}
+
   apps/gateway-server: {}
 
   libs/common: {}

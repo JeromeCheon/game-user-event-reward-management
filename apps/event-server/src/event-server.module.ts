@@ -13,6 +13,12 @@ import { RewardItemDocument } from '@app/schema/schemas/reward-item.schema';
 import { RewardItemSchema } from '@app/schema/schemas/reward-item.schema';
 import { RewardItemController } from './presentation/reward-item-management/reward-item.controller';
 import { RewardItemService } from './application/reward-item-management/reward-item.service';
+import { RewardDocument } from '@app/schema/schemas/reward.schema';
+import { RewardSchema } from '@app/schema/schemas/reward.schema';
+import { RewardController } from './presentation/reward-management/reward.controller';
+import { RewardService } from './application/reward-management/reward.service';
+import { REWARD_REPOSITORY } from './domain/reward/reward.repository';
+import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
 
 @Module({
   imports: [
@@ -23,12 +29,14 @@ import { RewardItemService } from './application/reward-item-management/reward-i
     MongooseModule.forFeature([
       { name: EventDocument.name, schema: EventSchema },
       { name: RewardItemDocument.name, schema: RewardItemSchema },
+      { name: RewardDocument.name, schema: RewardSchema },
     ]),
   ],
-  controllers: [EventServerController, RewardItemController],
+  controllers: [EventServerController, RewardItemController, RewardController],
   providers: [
     EventServerService,
     RewardItemService,
+    RewardService,
     {
       provide: EVENT_REPOSITORY,
       useClass: MongooseEventRepository,
@@ -36,6 +44,10 @@ import { RewardItemService } from './application/reward-item-management/reward-i
     {
       provide: REWARD_ITEM_REPOSITORY,
       useClass: MongooseRewardItemRepository,
+    },
+    {
+      provide: REWARD_REPOSITORY,
+      useClass: MongooseRewardRepository,
     },
   ],
 })
