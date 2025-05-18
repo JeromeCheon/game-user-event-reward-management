@@ -8,16 +8,16 @@ export interface RewardItemProps {
 }
 
 export class RewardItem extends AggregateRoot<RewardItemProps> {
-  constructor(props: RewardItemProps) {
-    super(props);
+  constructor(props: RewardItemProps, id?: string) {
+    super(props, id);
   }
 
-  static create(props: RewardItemProps): RewardItem {
-    return new RewardItem(props);
+  static create(props: RewardItemProps, id?: string): RewardItem {
+    return new RewardItem(props, id);
   }
 
-  static from(props: RewardItemProps): RewardItem {
-    return new RewardItem(props);
+  static from(props: RewardItemProps, id?: string): RewardItem {
+    return new RewardItem(props, id);
   }
 
   get type(): string {

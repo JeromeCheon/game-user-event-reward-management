@@ -9,23 +9,45 @@ import { Event } from '../../domain/event/event';
 import { EventCondition } from '../../domain/event/event-condition';
 import { Role } from '@app/common/variable/role';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
+import { RewardRepository } from '../../domain/reward/reward.repository';
+import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
 
 @Injectable()
 export class EventService {
   constructor(
     @Inject(EVENT_REPOSITORY)
     private readonly eventRepository: EventRepository,
+    @Inject(REWARD_REPOSITORY)
+    private readonly rewardRepository: RewardRepository,
   ) {}
 
   async getEvents({ role }: AuthUserInfo): Promise<EventViewModel[]> {
     const events = await this.eventRepository.findAll();
+    if (events.length === 0) {
+      return [];
+    }
 
     if (role === Role.USER) {
-      return events
-        .filter((event) => event.isActive)
-        .map((event) => EventViewModel.forGameUser(event));
+      const activeEvents = events.filter((event) => event.isActive);
+      const activeEventIds = activeEvents.map((event) => event.id);
+      const rewards =
+        await this.rewardRepository.findByEventIds(activeEventIds);
+      return activeEvents.map((event) =>
+        EventViewModel.forGameUser(
+          event,
+          rewards.find((reward) => reward.eventId === event.id)?.items ?? [],
+        ),
+      );
     }
-    return events.map((event) => EventViewModel.forStaffs(event));
+
+    const eventIds = events.map((event) => event.id);
+    const rewards = await this.rewardRepository.findByEventIds(eventIds);
+    return events.map((event) =>
+      EventViewModel.forStaffs(
+        event,
+        rewards.find((reward) => reward.eventId === event.id)?.items ?? [],
+      ),
+    );
   }
 
   async createEvent({
@@ -39,7 +61,6 @@ export class EventService {
     const event = Event.create({
       ...rest,
       creator: { id: user.id, role: user.role },
-      rewardIds: [],
       isActive: false,
       createdAt: new Date(),
       updatedAt: new Date(),

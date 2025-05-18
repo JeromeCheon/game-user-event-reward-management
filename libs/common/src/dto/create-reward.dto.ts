@@ -5,9 +5,29 @@ import {
   IsString,
   IsNumber,
   IsEnum,
-  IsArray,
   Min,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
+
+export class RewardItemDto {
+  @ApiProperty({
+    description: '보상 아이템 ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsString()
+  @IsNotEmpty()
+  rewardItemId: string;
+
+  @ApiProperty({
+    description: '보상 아이템 수량',
+    example: 1,
+  })
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  quantity: number;
+}
 
 export class CreateRewardDto {
   @ApiProperty({
@@ -27,21 +47,16 @@ export class CreateRewardDto {
   type: RewardType;
 
   @ApiProperty({
-    description: '보상 아이템 ID (복수개 설정 가능)',
-    example: ['123e4567-e89b-12d3-a456-426614174000'],
-    isArray: true,
+    description: '보상 아이템 리스트',
+    example: [
+      {
+        rewardItemId: '123e4567-e89b-12d3-a456-426614174000',
+        quantity: 1,
+      },
+    ],
   })
+  @ValidateNested({ each: true })
   @IsArray()
-  @IsString({ each: true })
   @IsNotEmpty()
-  rewardItemIds: string[];
-
-  @ApiProperty({
-    description: '보상 수량',
-    example: 1,
-  })
-  @IsNumber()
-  @Min(1)
-  @IsNotEmpty()
-  quantity: number;
+  items: RewardItemDto[];
 }

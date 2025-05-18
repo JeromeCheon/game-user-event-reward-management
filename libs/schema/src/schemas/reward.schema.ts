@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Reward } from 'apps/event-server/src/domain/reward/reward';
 import { RewardType } from 'apps/event-server/src/domain/reward/reward-type';
+import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
 import { Document } from 'mongoose';
 
 @Schema({ collection: 'rewards' })
@@ -15,10 +16,7 @@ export class RewardDocument {
   type: string;
 
   @Prop({ required: true })
-  quantity: number;
-
-  @Prop({ required: true })
-  rewardItemIds: string[];
+  items: RewardItemInfo[];
 
   @Prop({ required: true })
   createdAt: Date;
@@ -31,8 +29,7 @@ export class RewardDocument {
     doc._id = reward.id;
     doc.eventId = reward.eventId;
     doc.type = reward.type;
-    doc.quantity = reward.quantity;
-    doc.rewardItemIds = reward.rewardItemIds;
+    doc.items = reward.items;
     doc.createdAt = reward.createdAt;
     doc.updatedAt = reward.updatedAt;
 
@@ -40,14 +37,16 @@ export class RewardDocument {
   }
 
   toDomain(): Reward {
-    return Reward.from({
-      eventId: this.eventId,
-      type: this.type as RewardType,
-      quantity: this.quantity,
-      rewardItemIds: this.rewardItemIds,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    });
+    return Reward.from(
+      {
+        eventId: this.eventId,
+        type: this.type as RewardType,
+        items: this.items,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
+      },
+      this._id,
+    );
   }
 }
 

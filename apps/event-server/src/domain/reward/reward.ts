@@ -1,27 +1,26 @@
 import { AggregateRoot } from '@app/common/base/aggregate-root';
 import { RewardType } from './reward-type';
+import { RewardItemInfo } from './reward-item-info';
 
 export interface RewardProps {
   eventId: string;
   type: RewardType;
-  quantity: number;
-  rewardItemIds: string[];
+  items: RewardItemInfo[];
   createdAt: Date;
   updatedAt: Date;
 }
 
 export class Reward extends AggregateRoot<RewardProps> {
-  constructor(props: RewardProps) {
-    super(props);
+  constructor(props: RewardProps, id?: string) {
+    super(props, id);
   }
 
-  static create(props: RewardProps): Reward {
-    // TODO: 보상 생성 시 연결된 이벤트로 상태 갱신 event 추가
-    return new Reward(props);
+  static create(props: RewardProps, id?: string): Reward {
+    return new Reward(props, id);
   }
 
-  static from(props: RewardProps): Reward {
-    return new Reward(props);
+  static from(props: RewardProps, id?: string): Reward {
+    return new Reward(props, id);
   }
 
   get eventId(): string {
@@ -32,12 +31,8 @@ export class Reward extends AggregateRoot<RewardProps> {
     return this.props.type;
   }
 
-  get rewardItemIds(): string[] {
-    return this.props.rewardItemIds;
-  }
-
-  get quantity(): number {
-    return this.props.quantity;
+  get items(): RewardItemInfo[] {
+    return this.props.items;
   }
 
   get createdAt(): Date {

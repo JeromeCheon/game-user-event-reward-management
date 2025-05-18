@@ -11,11 +11,11 @@ export interface EventProps {
   startDate: Date;
   endDate: Date;
   conditions: EventCondition[];
-  rewardIds: string[];
   creator: EventCreater;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  rewardId?: string;
 }
 
 export class Event extends AggregateRoot<EventProps> {
@@ -43,8 +43,8 @@ export class Event extends AggregateRoot<EventProps> {
   get conditions(): EventCondition[] {
     return this.props.conditions;
   }
-  get rewardIds(): string[] {
-    return this.props.rewardIds;
+  get rewardId(): string | undefined {
+    return this.props.rewardId;
   }
   get creator(): EventCreater {
     return this.props.creator;
@@ -64,5 +64,9 @@ export class Event extends AggregateRoot<EventProps> {
   }
   static from(props: EventProps, id?: string): Event {
     return new Event(props, id);
+  }
+
+  addRewardId(rewardId: string): void {
+    this.props.rewardId = rewardId;
   }
 }

@@ -13,13 +13,22 @@ export class MongooseRewardRepository implements RewardRepository {
     private readonly rewardModel: Model<RewardModel>,
   ) {}
 
-  async insert(entity: Reward): Promise<void> {
-    const doc = RewardDocument.fromDomain(entity);
+  async insert(reward: Reward): Promise<void> {
+    const doc = RewardDocument.fromDomain(reward);
     await this.rewardModel.create(doc);
   }
 
-  async update(entity: Reward): Promise<void> {
-    const doc = RewardDocument.fromDomain(entity);
+  async update(reward: Reward): Promise<void> {
+    const doc = RewardDocument.fromDomain(reward);
     await this.rewardModel.updateOne({ _id: doc._id }, doc);
+  }
+
+  async findByEventIds(eventIds: string[]): Promise<Reward[]> {
+    const docs = await this.rewardModel
+      .find({ eventId: { $in: eventIds } })
+      .lean();
+    return docs.map((doc) =>
+      Object.assign(new RewardDocument(), doc).toDomain(),
+    );
   }
 }

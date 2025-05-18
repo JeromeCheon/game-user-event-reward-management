@@ -3,4 +3,6 @@ import { Reward } from './reward';
 
 export const REWARD_REPOSITORY = Symbol('REWARD_REPOSITORY');
 
-export interface RewardRepository extends Repository<Reward> {}
+export interface RewardRepository extends Repository<Reward> {
+  findByEventIds(eventIds: string[]): Promise<Reward[]>;
+}

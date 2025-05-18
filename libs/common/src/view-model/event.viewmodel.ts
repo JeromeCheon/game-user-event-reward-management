@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { EventType } from '@app/common/variable/event-type';
 import { EventCreater } from 'apps/event-server/src/domain/event/event-creater';
 import { Event } from 'apps/event-server/src/domain/event/event';
+import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
 
 export class EventViewModel {
   @ApiProperty({
@@ -60,7 +61,14 @@ export class EventViewModel {
     description: '이벤트 보상',
     example: ['이벤트 보상'],
   })
-  rewardIds: string[];
+  rewardItems: RewardItemInfo[];
+
+  @ApiProperty({
+    description: '이벤트 보상 ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+    nullable: true,
+  })
+  rewardId?: string;
 
   @ApiProperty({
     description: '이벤트 생성자',
@@ -90,7 +98,10 @@ export class EventViewModel {
   })
   endDate: Date;
 
-  static forGameUser(event: Event): EventViewModel {
+  static forGameUser(
+    event: Event,
+    rewardItems: RewardItemInfo[],
+  ): EventViewModel {
     const viewModel = new EventViewModel();
     viewModel.id = event.id;
     viewModel.name = event.name;
@@ -99,13 +110,16 @@ export class EventViewModel {
     viewModel.createdAt = event.createdAt;
     viewModel.updatedAt = event.updatedAt;
     viewModel.conditions = event.conditions;
-    viewModel.rewardIds = event.rewardIds; // TODO: 추후 실제 보상 목록으로 변경
+    viewModel.rewardItems = rewardItems;
     viewModel.startDate = event.startDate;
     viewModel.endDate = event.endDate;
     return viewModel;
   }
 
-  static forStaffs(event: Event): EventViewModel {
+  static forStaffs(
+    event: Event,
+    rewardItems: RewardItemInfo[],
+  ): EventViewModel {
     const viewModel = new EventViewModel();
     viewModel.id = event.id;
     viewModel.name = event.name;
@@ -114,7 +128,7 @@ export class EventViewModel {
     viewModel.createdAt = event.createdAt;
     viewModel.updatedAt = event.updatedAt;
     viewModel.conditions = event.conditions;
-    viewModel.rewardIds = event.rewardIds;
+    viewModel.rewardItems = rewardItems;
     viewModel.startDate = event.startDate;
     viewModel.endDate = event.endDate;
     viewModel.creator = event.creator;

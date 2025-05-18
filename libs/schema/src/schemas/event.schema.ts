@@ -33,8 +33,8 @@ export class EventDocument {
   @Prop({ required: true })
   conditions: EventConditionDto[];
 
-  @Prop({ required: true, type: [String] })
-  rewardIds: string[];
+  @Prop({ required: false })
+  rewardId: string;
 
   @Prop({ required: true, type: Object })
   creator: EventCreater;
@@ -58,7 +58,7 @@ export class EventDocument {
     doc.startDate = event.startDate;
     doc.endDate = event.endDate;
     doc.conditions = event.conditions.map((condition) => condition.toValue());
-    doc.rewardIds = event.rewardIds;
+    doc.rewardId = event.rewardId;
     doc.isActive = event.isActive;
     doc.createdAt = event.createdAt;
     doc.updatedAt = event.updatedAt;
@@ -79,7 +79,7 @@ export class EventDocument {
         conditions: this.conditions.map(
           (condition) => new EventCondition(condition),
         ),
-        rewardIds: this.rewardIds,
+        rewardId: this.rewardId,
         creator: this.creator,
         isActive: this.isActive,
         createdAt: this.createdAt,

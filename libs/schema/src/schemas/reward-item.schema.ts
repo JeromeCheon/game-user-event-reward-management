@@ -26,12 +26,15 @@ export class RewardItemDocument {
   }
 
   toDomain(): RewardItem {
-    return RewardItem.from({
-      type: this.type,
-      description: this.description,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    });
+    return RewardItem.from(
+      {
+        type: this.type,
+        description: this.description,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
+      },
+      this._id,
+    );
   }
 }
 

@@ -15,18 +15,25 @@ export class MongooseRewardItemRepository implements RewardItemRepository {
     private readonly rewardItemModel: Model<RewardItemModel>,
   ) {}
 
-  async insert(entity: RewardItem): Promise<void> {
-    const doc = RewardItemDocument.fromDomain(entity);
+  async insert(item: RewardItem): Promise<void> {
+    const doc = RewardItemDocument.fromDomain(item);
     await this.rewardItemModel.create(doc);
   }
 
-  async update(entity: RewardItem): Promise<void> {
-    const doc = RewardItemDocument.fromDomain(entity);
+  async update(item: RewardItem): Promise<void> {
+    const doc = RewardItemDocument.fromDomain(item);
     await this.rewardItemModel.updateOne({ _id: doc._id }, doc);
   }
 
   async findAll(): Promise<RewardItem[]> {
     const docs = await this.rewardItemModel.find().lean();
+    return docs.map((doc) =>
+      Object.assign(new RewardItemDocument(), doc).toDomain(),
+    );
+  }
+
+  async findByIds(ids: string[]): Promise<RewardItem[]> {
+    const docs = await this.rewardItemModel.find({ _id: { $in: ids } }).lean();
     return docs.map((doc) =>
       Object.assign(new RewardItemDocument(), doc).toDomain(),
     );
