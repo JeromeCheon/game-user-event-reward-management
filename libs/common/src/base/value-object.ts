@@ -5,7 +5,7 @@ export abstract class ValueObject<T> {
     this.props = props;
   }
 
-  public equals(valueObject?: ValueObject<T>): boolean {
+  equals(valueObject?: ValueObject<T>): boolean {
     if (valueObject === null || valueObject === undefined) {
       return false;
     }
@@ -13,5 +13,9 @@ export abstract class ValueObject<T> {
       return false;
     }
     return JSON.stringify(this.props) === JSON.stringify(valueObject.props);
+  }
+
+  toValue(): T {
+    return this.props;
   }
 }
