@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { GameUserAuthRepository } from '../domain/game-user-auth.repository';
+import { GameUserAuthRepository } from '../domain/user-auth/game-user-auth.repository';
 import { Model } from 'mongoose';
-import { GameUserDocument } from '@app/schema/schemas/user.schema';
-import { GameUserModel } from '@app/schema/schemas/user.schema';
+import {
+  GameUserDocument,
+  GameUserModel,
+} from '@app/schema/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { GameUser } from '../domain/game-user';
+import { GameUser } from '../domain/user-auth/game-user';
 
 @Injectable()
 export class MongooseGameUserAuthRepository implements GameUserAuthRepository {

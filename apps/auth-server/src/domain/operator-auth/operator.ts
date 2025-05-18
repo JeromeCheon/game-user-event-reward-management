@@ -1,5 +1,5 @@
 import { MapleJobInfo } from '@app/common/variable/maple-job-info';
-import { User, UserProps } from './user';
+import { User, UserProps } from '../user-auth/user';
 
 interface OperatorProps extends UserProps {
   level: number;

@@ -1,4 +1,4 @@
-import { User, UserProps } from './user';
+import { User, UserProps } from './user-auth/user';
 
 export const SESSION_POLICY = Symbol('SESSION_POLICY');
 

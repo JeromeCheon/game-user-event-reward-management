@@ -1,4 +1,4 @@
-import { User, UserProps } from './user';
+import { User, UserProps } from '../user-auth/user';
 
 export class Auditor extends User<UserProps> {
   private constructor(props: UserProps, id?: string) {

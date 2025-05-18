@@ -8,7 +8,7 @@ import {
 } from '@app/common/variable/maple-job-info';
 import { MapleJobInfoSchema } from './user.schema';
 import { MapleJobInfoDocument } from './user.schema';
-import { Operator } from 'apps/auth-server/src/domain/operator';
+import { Operator } from 'apps/auth-server/src/domain/operator-auth/operator';
 
 @Schema({
   collection: 'operators',

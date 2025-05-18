@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Auditor } from '../domain/auditor';
-import { AuditorDocument } from '@app/schema/schemas/auditor.schema';
-import { AuditorModel } from '@app/schema/schemas/auditor.schema';
-import { AuditorAuthRepository } from '../domain/auditor-auth.repository';
+import { Auditor } from '../domain/auditor-auth/auditor';
+import {
+  AuditorDocument,
+  AuditorModel,
+} from '@app/schema/schemas/auditor.schema';
+import { AuditorAuthRepository } from '../domain/auditor-auth/auditor-auth.repository';
 
 @Injectable()
 export class MongooseAuditorAuthRepository implements AuditorAuthRepository {

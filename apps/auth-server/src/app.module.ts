@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserAuthService } from './application/user-auth.service';
+import { UserAuthService } from './application/user-auth/user-auth.service';
 import { AuthServerController } from './presentation/auth-server.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GAME_USER_AUTH_REPOSITORY } from './domain/game-user-auth.repository';
+import { GAME_USER_AUTH_REPOSITORY } from './domain/user-auth/game-user-auth.repository';
 import { MongooseGameUserAuthRepository } from './infra/mongoose.game-user-auth.repository';
 import {
   GameUserDocument,
@@ -15,19 +15,15 @@ import { OperatorSchema } from '@app/schema/schemas/operator.schema';
 import { AdminDocument } from '@app/schema/schemas/admin.schema';
 import { AuditorDocument } from '@app/schema/schemas/auditor.schema';
 import { MongooseAdminAuthRepository } from './infra/mongoose.admin-auth.repository';
-import { OPERATOR_AUTH_REPOSITORY } from './domain/operator-auth.repository';
-import { ADMIN_AUTH_REPOSITORY } from './domain/admin-auth.repository';
+import { OPERATOR_AUTH_REPOSITORY } from './domain/operator-auth/operator-auth.repository';
+import { ADMIN_AUTH_REPOSITORY } from './domain/admin-auth/admin-auth.repository';
 import { MongooseOperatorAuthRepository } from './infra/mongoose.operator-auth.repository';
 import { MongooseAuditorAuthRepository } from './infra/mongoose.auditor-auth.repository';
-import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth.repository';
-import { AdminAuthService } from './application/admin-auth.service';
-import { OperatorAuthService } from './application/operator-auth.service';
-import { AuditorAuthService } from './application/auditor-auth.service';
+import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth/auditor-auth.repository';
+import { AdminAuthService } from './application/admin-auth/admin-auth.service';
+import { OperatorAuthService } from './application/operator-auth/operator-auth.service';
+import { AuditorAuthService } from './application/auditor-auth/auditor-auth.service';
 import config from '@app/common';
-import { UserSessionService } from './application/user-session-service';
-import { AdminSessionService } from './application/admin-session-service';
-import { OperatorSessionService } from './application/operator-session-service';
-import { AuditorSessionService } from './application/auditor-session-service';
 import { JwtSessionPolicy } from './infra/jwt.session-policy';
 import { SESSION_POLICY } from './domain/session-policy';
 import { JwtService } from '@nestjs/jwt';
@@ -83,10 +79,6 @@ import { ConnectionUrl } from '@app/common/variable/db-connection';
     AdminAuthService,
     AuditorAuthService,
     OperatorAuthService,
-    UserSessionService,
-    AdminSessionService,
-    OperatorSessionService,
-    AuditorSessionService,
     JwtService,
     {
       provide: GAME_USER_AUTH_REPOSITORY,
@@ -110,4 +102,4 @@ import { ConnectionUrl } from '@app/common/variable/db-connection';
     },
   ],
 })
-export class AuthServerModule {}
+export class AppModule {}
