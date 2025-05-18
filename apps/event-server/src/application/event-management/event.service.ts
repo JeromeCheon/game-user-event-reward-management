@@ -1,14 +1,17 @@
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { CreateEventDto } from '@app/common/dto/create-event-dto';
 import { Inject, Injectable } from '@nestjs/common';
-import { EVENT_REPOSITORY, EventRepository } from '../domain/event.repository';
-import { Event } from '../domain/event';
-import { EventCondition } from '../domain/event-condition';
+import {
+  EVENT_REPOSITORY,
+  EventRepository,
+} from '../../domain/event/event.repository';
+import { Event } from '../../domain/event/event';
+import { EventCondition } from '../../domain/event/event-condition';
 import { Role } from '@app/common/variable/role';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 
 @Injectable()
-export class EventServerService {
+export class EventService {
   constructor(
     @Inject(EVENT_REPOSITORY)
     private readonly eventRepository: EventRepository,

@@ -5,8 +5,10 @@ import {
 } from '../../domain/reward/reward.repository';
 import { Reward } from '../../domain/reward/reward';
 import { CreateRewardDto } from '@app/common/dto/create-reward.dto';
-import { EventRepository } from '../../domain/event.repository';
-import { EVENT_REPOSITORY } from '../../domain/event.repository';
+import {
+  EventRepository,
+  EVENT_REPOSITORY,
+} from '../../domain/event/event.repository';
 import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
 
 @Injectable()

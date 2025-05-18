@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Event } from 'apps/event-server/src/domain/event';
-import { EventCondition } from 'apps/event-server/src/domain/event-condition';
+import { Event } from 'apps/event-server/src/domain/event/event';
+import { EventCondition } from 'apps/event-server/src/domain/event/event-condition';
 import { EventType } from '@app/common/variable/event-type';
-import { EventCreater } from 'apps/event-server/src/domain/event-creater';
+import { EventCreater } from 'apps/event-server/src/domain/event/event-creater';
 import { EventConditionDto } from '@app/common/dto/create-event-dto';
 
 @Schema({

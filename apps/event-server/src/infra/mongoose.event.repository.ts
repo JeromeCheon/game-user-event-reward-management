@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EventRepository } from '../domain/event.repository';
-import { Event } from '../domain/event';
+import { EventRepository } from '../domain/event/event.repository';
+import { Event } from '../domain/event/event';
 
 import { InjectModel } from '@nestjs/mongoose';
 import { EventDocument, EventModel } from '@app/schema/schemas/event.schema';

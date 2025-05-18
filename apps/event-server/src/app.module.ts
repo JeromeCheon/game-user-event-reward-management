@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { EventServerController } from './presentation/event-server.controller';
-import { EventServerService } from './application/event-server.service';
-import { EVENT_REPOSITORY } from './domain/event.repository';
+import { EventController } from './presentation/event-management/event.controller';
+import { EventService } from './application/event-management/event.service';
+import { EVENT_REPOSITORY } from './domain/event/event.repository';
 import { MongooseEventRepository } from './infra/mongoose.event.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConnectionUrl } from '@app/common/variable/db-connection';
@@ -32,9 +32,9 @@ import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
       { name: RewardDocument.name, schema: RewardSchema },
     ]),
   ],
-  controllers: [EventServerController, RewardItemController, RewardController],
+  controllers: [EventController, RewardItemController, RewardController],
   providers: [
-    EventServerService,
+    EventService,
     RewardItemService,
     RewardService,
     {
@@ -51,4 +51,4 @@ import { MongooseRewardRepository } from './infra/mongoose.reward.repository';
     },
   ],
 })
-export class EventServerModule {}
+export class AppModule {}

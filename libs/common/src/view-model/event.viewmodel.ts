@@ -1,8 +1,8 @@
+import { EventCondition } from 'apps/event-server/src/domain/event/event-condition';
 import { ApiProperty } from '@nestjs/swagger';
-import { EventCondition } from '../../../../apps/event-server/src/domain/event-condition';
 import { EventType } from '@app/common/variable/event-type';
-import { Event } from '../../../../apps/event-server/src/domain/event';
-import { EventCreater } from 'apps/event-server/src/domain/event-creater';
+import { EventCreater } from 'apps/event-server/src/domain/event/event-creater';
+import { Event } from 'apps/event-server/src/domain/event/event';
 
 export class EventViewModel {
   @ApiProperty({
@@ -99,7 +99,7 @@ export class EventViewModel {
     viewModel.createdAt = event.createdAt;
     viewModel.updatedAt = event.updatedAt;
     viewModel.conditions = event.conditions;
-    viewModel.rewardIds = event.rewardIds; // 추후 실제 보상 목록으로 변경
+    viewModel.rewardIds = event.rewardIds; // TODO: 추후 실제 보상 목록으로 변경
     viewModel.startDate = event.startDate;
     viewModel.endDate = event.endDate;
     return viewModel;
