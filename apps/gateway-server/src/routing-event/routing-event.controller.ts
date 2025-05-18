@@ -19,6 +19,7 @@ import { Roles } from '@app/common/decorator/roles';
 import { AuthUser } from '@app/common/decorator/auth-user';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
+import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 
 @ApiTags('Event')
 @UseGuards(AuthGuard('jwt'))
@@ -64,5 +65,18 @@ export class RoutingEventController {
       `${user.role} ${user.id} 님이 이벤트 목록을 조회하셨습니다. 조회된 이벤트수: ${events.length}`,
     );
     return events;
+  }
+
+  @Post('reward-item')
+  @ApiOperation({ summary: '보상 아이템 생성' })
+  @ApiBody({
+    type: CreateRewardItemDto,
+    description: '보상 아이템 생성에 필요한 정보',
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async createRewardItem(@Body() createRewardItemDto: CreateRewardItemDto) {
+    return await this.routingEventService.createRewardItem(createRewardItemDto);
   }
 }
