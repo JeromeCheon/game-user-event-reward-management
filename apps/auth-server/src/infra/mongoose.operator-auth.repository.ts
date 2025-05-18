@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { OperatorAuthRepository } from '../domain/operator-auth.repository';
-import { OperatorDocument } from '@app/schema/schemas/operator.schema';
-import { OperatorModel } from '@app/schema/schemas/operator.schema';
-import { Operator } from '../domain/operator';
+import { OperatorAuthRepository } from '../domain/operator-auth/operator-auth.repository';
+import {
+  OperatorDocument,
+  OperatorModel,
+} from '@app/schema/schemas/operator.schema';
+import { Operator } from '../domain/operator-auth/operator';
 
 @Injectable()
 export class MongooseOperatorAuthRepository implements OperatorAuthRepository {

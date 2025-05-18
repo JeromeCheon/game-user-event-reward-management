@@ -1,3 +1,4 @@
+import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { EVENT_SERVER_COMMAND } from '@app/common/variable/event-server-command';
 import { EVENT_SERVER } from '@app/common/variable/symbols';
 import { Inject, Injectable } from '@nestjs/common';
@@ -10,9 +11,9 @@ export class RoutingEventService {
     @Inject(EVENT_SERVER) private readonly eventClient: ClientProxy,
   ) {}
 
-  async getEvents() {
+  async getEvents(user: AuthUserInfo) {
     return await firstValueFrom(
-      this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.GET_EVENTS }, {}),
+      this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.GET_EVENTS }, user),
     );
   }
 

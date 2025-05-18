@@ -7,14 +7,14 @@ import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
 
-@ApiTags('auth')
+@ApiTags('Auth')
 @Controller('v1/auth')
 @UseFilters(CustomHttpExceptionFilter)
 export class IdentityAccessController {
   private readonly logger = new Logger(IdentityAccessController.name);
   constructor(private readonly identityAccessService: IdentityAccessService) {}
 
-  @Post('user')
+  @Post('users')
   @ApiOperation({ summary: '유저 생성' })
   async createUser(@Body() body: CreateGameUserDto): Promise<string> {
     const id = await this.identityAccessService.createUser(body);
@@ -30,7 +30,7 @@ export class IdentityAccessController {
     return token;
   }
 
-  @Post('admin')
+  @Post('admins')
   @ApiOperation({ summary: '관리자 생성' })
   async createAdmin(@Body() body: CreateUserDto): Promise<string> {
     const id = await this.identityAccessService.createAdmin(body);
@@ -38,7 +38,7 @@ export class IdentityAccessController {
     return id;
   }
 
-  @Post('admin/login')
+  @Post('admins/login')
   @ApiOperation({ summary: '관리자 로그인' })
   async loginAdmin(@Body() body: LoginUserDto): Promise<string> {
     const token = await this.identityAccessService.loginAdmin(body);
@@ -46,7 +46,7 @@ export class IdentityAccessController {
     return token;
   }
 
-  @Post('auditor')
+  @Post('auditors')
   @ApiOperation({ summary: '감사자 생성' })
   async createAuditor(@Body() body: CreateUserDto): Promise<string> {
     const id = await this.identityAccessService.createAuditor(body);
@@ -54,7 +54,7 @@ export class IdentityAccessController {
     return id;
   }
 
-  @Post('auditor/login')
+  @Post('auditors/login')
   @ApiOperation({ summary: '감사자 로그인' })
   async loginAuditor(@Body() body: LoginUserDto): Promise<string> {
     const token = await this.identityAccessService.loginAuditor(body);
@@ -62,7 +62,7 @@ export class IdentityAccessController {
     return token;
   }
 
-  @Post('operator')
+  @Post('operators')
   @ApiOperation({ summary: '운영자 생성' })
   async createOperator(@Body() body: CreateOperatorDto): Promise<string> {
     const id = await this.identityAccessService.createOperator(body);
@@ -70,7 +70,7 @@ export class IdentityAccessController {
     return id;
   }
 
-  @Post('operator/login')
+  @Post('operators/login')
   @ApiOperation({ summary: '운영자 로그인' })
   async loginOperator(@Body() body: LoginUserDto): Promise<string> {
     const token = await this.identityAccessService.loginOperator(body);

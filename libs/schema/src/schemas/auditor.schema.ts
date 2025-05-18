@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Password } from '../../../../apps/auth-server/src/domain/password';
 import { Role } from '@app/common/variable/role';
 import { WorldServerType } from '@app/common/variable/world-server-type';
-import { Auditor } from 'apps/auth-server/src/domain/auditor';
+import { Auditor } from 'apps/auth-server/src/domain/auditor-auth/auditor';
 
 @Schema({
   collection: 'auditors',
