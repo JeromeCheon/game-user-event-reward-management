@@ -2,6 +2,7 @@ import { AggregateRoot } from '@app/common/base/aggregate-root';
 import { EventType } from '@app/common/variable/event-type';
 import { EventCondition } from './event-condition';
 import { EventCreater } from './event-creater';
+import { EventActivated } from '../domain-events/event-activated.event';
 
 export interface EventProps {
   name: string;
@@ -74,5 +75,8 @@ export class Event extends AggregateRoot<EventProps> {
   updateActiveStatus(isActive: boolean): void {
     this.props.isActive = isActive;
     this.props.updatedAt = new Date();
+    if (isActive) {
+      this.addDomainEvent(new EventActivated(this));
+    }
   }
 }

@@ -13,6 +13,7 @@ import { RewardRepository } from '../../domain/reward/reward.repository';
 import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
 import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
 import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class EventService {
@@ -21,6 +22,7 @@ export class EventService {
     private readonly eventRepository: EventRepository,
     @Inject(REWARD_REPOSITORY)
     private readonly rewardRepository: RewardRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async getEvents({ role }: AuthUserInfo): Promise<EventViewModel[]> {
@@ -85,9 +87,18 @@ export class EventService {
     if (!event) {
       throw new NotFoundEventException(id);
     }
+    if (event.isActive === dto.isActive) {
+      return false;
+    }
 
     event.updateActiveStatus(dto.isActive);
     await this.eventRepository.update(event);
+
+    if (dto.isActive) {
+      this.eventEmitter.emit('event.activated', { event });
+    }
+    event.clearEvents();
+
     return true;
   }
 

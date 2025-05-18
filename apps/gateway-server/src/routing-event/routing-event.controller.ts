@@ -99,7 +99,9 @@ export class RoutingEventController {
   }
 
   @Patch(':id/active')
-  @ApiOperation({ summary: '이벤트 활성화 상태 변경' })
+  @ApiOperation({
+    summary: '이벤트 활성화 상태 변경(활성화 시 유저 조건 충족 모니터링 시작)',
+  })
   @ApiParam({
     name: 'id',
     description: '수정할 이벤트 ID',
@@ -111,7 +113,8 @@ export class RoutingEventController {
   })
   @ApiResponse({
     status: 200,
-    description: '이벤트 활성화 상태 변경 성공',
+    description:
+      '상태 변경 성공. 활성화 시 이벤트 트리거를 통한 유저의 이벤트 조건 진행도 기록 시작',
     type: Boolean,
   })
   @ApiAuthSecurity()
@@ -123,9 +126,10 @@ export class RoutingEventController {
     @AuthUser() user: AuthUserInfo,
   ) {
     const result = await this.routingEventService.updateEventActive(id, dto);
-    this.logger.log(
-      `${user.role} ${user.id} 님이 이벤트(ID: ${id})의 활성화 상태를 ${dto.isActive ? '활성화' : '비활성화'}로 변경하셨습니다.`,
-    );
+    const log = result
+      ? `${user.role} ${user.id} 님이 이벤트(ID: ${id})의 활성화 상태를 ${dto.isActive ? '활성화' : '비활성화'}로 변경하셨습니다.`
+      : `${user.role} ${user.id} 님이 이벤트(ID: ${id})의 활성화 상태를 변경하지 않았습니다.`;
+    this.logger.log(log);
     return result;
   }
 }
