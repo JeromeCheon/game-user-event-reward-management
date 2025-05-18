@@ -15,6 +15,17 @@ export class EventController {
     return await this.eventService.getEvents(user);
   }
 
+  @MessagePattern({ cmd: EVENT_SERVER_COMMAND.GET_EVENT_BY_ID })
+  async getEventById({
+    id,
+    user,
+  }: {
+    id: string;
+    user: AuthUserInfo;
+  }): Promise<EventViewModel> {
+    return await this.eventService.getEventById({ id, user });
+  }
+
   @MessagePattern({ cmd: EVENT_SERVER_COMMAND.CREATE_EVENT })
   async createEvent({
     createEventDto,

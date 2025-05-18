@@ -17,6 +17,15 @@ export class RoutingEventService {
     );
   }
 
+  async getEventById(id: string, user: AuthUserInfo) {
+    return await firstValueFrom(
+      this.eventClient.send(
+        { cmd: EVENT_SERVER_COMMAND.GET_EVENT_BY_ID },
+        { id, user },
+      ),
+    );
+  }
+
   async createEvent(dto: unknown) {
     return await firstValueFrom(
       this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.CREATE_EVENT }, dto),
