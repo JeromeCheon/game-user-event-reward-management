@@ -1,13 +1,14 @@
 import {
   Body,
   Controller,
+  Get,
   Logger,
   Post,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { RoutingRewardService } from './routing-reward.service';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http-exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiAuthSecurity } from '@app/common/decorator/api-security';
@@ -18,6 +19,7 @@ import { CreateRewardDto } from '@app/common/dto/create-reward.dto';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { AuthUser } from '@app/common/decorator/auth-user';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
+import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 
 @ApiTags('Reward')
 @UseGuards(AuthGuard('jwt'))
@@ -64,5 +66,25 @@ export class RoutingRewardController {
       `${user.role} ${user.id} 님이 보상 아이템을 생성하셨습니다. ID: ${rewardItemId}`,
     );
     return rewardItemId;
+  }
+
+  @Get('items')
+  @ApiOperation({ summary: '보상 아이템 목록 조회' })
+  @ApiResponse({
+    status: 200,
+    description: '보상 아이템 목록 조회 성공',
+    type: [RewardItemViewModel],
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async getRewardItems(
+    @AuthUser() user: AuthUserInfo,
+  ): Promise<RewardItemViewModel[]> {
+    const rewardItems = await this.routingRewardService.getRewardItems(user);
+    this.logger.log(
+      `${user.role} ${user.id} 님이 보상 아이템 목록을 조회하셨습니다. 조회된 아이템수: ${rewardItems.length}`,
+    );
+    return rewardItems;
   }
 }

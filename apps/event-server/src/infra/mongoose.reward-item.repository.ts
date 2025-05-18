@@ -24,4 +24,11 @@ export class MongooseRewardItemRepository implements RewardItemRepository {
     const doc = RewardItemDocument.fromDomain(entity);
     await this.rewardItemModel.updateOne({ _id: doc._id }, doc);
   }
+
+  async findAll(): Promise<RewardItem[]> {
+    const docs = await this.rewardItemModel.find().lean();
+    return docs.map((doc) =>
+      Object.assign(new RewardItemDocument(), doc).toDomain(),
+    );
+  }
 }

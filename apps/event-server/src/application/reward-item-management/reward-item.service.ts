@@ -5,6 +5,7 @@ import {
 } from '../../domain/reward-item/reward-item.repository';
 import { RewardItem } from '../../domain/reward-item/reward-item';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
+import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 
 @Injectable()
 export class RewardItemService {
@@ -22,5 +23,12 @@ export class RewardItemService {
     });
     await this.rewardItemRepository.insert(rewardItem);
     return rewardItem.id;
+  }
+
+  async getRewardItems(): Promise<RewardItemViewModel[]> {
+    const rewardItems = await this.rewardItemRepository.findAll();
+    return rewardItems.map((rewardItem) =>
+      RewardItemViewModel.from(rewardItem),
+    );
   }
 }
