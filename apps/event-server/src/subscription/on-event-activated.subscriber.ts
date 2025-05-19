@@ -25,29 +25,27 @@ export class OnEventActivatedSubscriber {
   @OnEvent('event.activated', { async: true })
   async handleActivatedTriggerProgressEvent({
     event,
-    dateOccurred,
   }: EventActivated): Promise<void> {
     const initialUseProgressList: UserEventProgress[] = [];
     const activeUserIds =
       await this.lookupUserRepository.getUserIdsExceptBanned();
-
-    event.conditions.map((condition) => {
-      activeUserIds.map((userId) => {
-        initialUseProgressList.push(
-          UserEventProgress.create({
-            userId,
-            eventId: event.id,
-            progressStatus: new ProgressStatus({
+    const dateOccurred = new Date();
+    activeUserIds.map((userId) => {
+      initialUseProgressList.push(
+        UserEventProgress.create({
+          userId,
+          eventId: event.id,
+          progressStatus: event.conditions.map((condition) => {
+            return new ProgressStatus({
               conditionType: condition.type,
-              value: '0',
-            }),
-            isCompleted: false,
-            isRewarded: false,
-            createdAt: dateOccurred,
-            updatedAt: dateOccurred,
+              value: 0,
+            });
           }),
-        );
-      });
+          isRewarded: false,
+          createdAt: dateOccurred,
+          updatedAt: dateOccurred,
+        }),
+      );
     });
 
     await this.userEventProgressRepository.insertMany(initialUseProgressList);

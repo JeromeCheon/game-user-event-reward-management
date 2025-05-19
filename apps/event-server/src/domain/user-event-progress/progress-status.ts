@@ -3,7 +3,7 @@ import { EventConditionType } from '@app/common/variable/event-type';
 
 export interface ProgressStatusType {
   conditionType: EventConditionType;
-  value: string;
+  value: number;
 }
 
 export class ProgressStatus extends ValueObject<ProgressStatusType> {
@@ -19,7 +19,7 @@ export class ProgressStatus extends ValueObject<ProgressStatusType> {
     return this.props.value;
   }
 
-  set value(value: string) {
+  set value(value: number) {
     this.props.value = value;
   }
 }
