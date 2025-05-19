@@ -43,6 +43,12 @@ export class EventViewModel {
   updatedAt: Date;
 
   @ApiProperty({
+    description: '이벤트 참여 최소 레벨 제한',
+    example: 1,
+  })
+  minLevel: number;
+
+  @ApiProperty({
     description: '이벤트 조건',
     example: '이벤트 조건',
     type: 'array',
@@ -107,6 +113,7 @@ export class EventViewModel {
     viewModel.name = event.name;
     viewModel.description = event.description;
     viewModel.type = event.type;
+    viewModel.minLevel = event.minLevel;
     viewModel.createdAt = event.createdAt;
     viewModel.updatedAt = event.updatedAt;
     viewModel.conditions = event.conditions;
@@ -127,6 +134,7 @@ export class EventViewModel {
     viewModel.type = event.type;
     viewModel.createdAt = event.createdAt;
     viewModel.updatedAt = event.updatedAt;
+    viewModel.minLevel = event.minLevel;
     viewModel.conditions = event.conditions;
     viewModel.rewardItems = rewardItems;
     viewModel.startDate = event.startDate;
