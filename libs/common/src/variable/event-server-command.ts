@@ -7,4 +7,6 @@ export const EVENT_SERVER_COMMAND = {
   CREATE_REWARD_ITEM: 'create-reward-item',
   CREATE_REWARD: 'create-reward',
   GET_REWARD_ITEMS: 'get-reward-items',
+  GET_ALL_REWARD_CLAIM_HISTORIES: 'get-all-reward-claim-histories',
+  GET_USER_REWARD_CLAIM_HISTORIES: 'get-user-reward-claim-histories',
 };

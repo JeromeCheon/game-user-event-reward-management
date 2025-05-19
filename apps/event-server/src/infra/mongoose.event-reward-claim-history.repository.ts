@@ -22,4 +22,21 @@ export class MongooseEventRewardClaimHistoryRepository
     );
     await this.historyModel.create(doc);
   }
+
+  async findAll(): Promise<EventRewardClaimHistory[]> {
+    const docs = await this.historyModel.find().sort({ recordedAt: -1 }).lean();
+    return docs.map((doc) =>
+      Object.assign(new EventRewardClaimHistoryDocument(), doc).toDomain(),
+    );
+  }
+
+  async findByUserId(userId: string): Promise<EventRewardClaimHistory[]> {
+    const docs = await this.historyModel
+      .find({ userId })
+      .sort({ recordedAt: -1 })
+      .lean();
+    return docs.map((doc) =>
+      Object.assign(new EventRewardClaimHistoryDocument(), doc).toDomain(),
+    );
+  }
 }
