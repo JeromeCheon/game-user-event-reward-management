@@ -1,34 +1,21 @@
 import { Module } from '@nestjs/common';
-import { UserAuthService } from './application/user-auth/user-auth.service';
-import { AuthServerController } from './presentation/auth-server.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GAME_USER_AUTH_REPOSITORY } from './domain/user-auth/game-user-auth.repository';
-import { MongooseGameUserAuthRepository } from './infra/mongoose.game-user-auth.repository';
-import {
-  GameUserDocument,
-  GameUserSchema,
-} from '@app/schema/schemas/user.schema';
-import { AuditorSchema } from '@app/schema/schemas/auditor.schema';
-import { OperatorDocument } from '@app/schema/schemas/operator.schema';
-import { AdminSchema } from '@app/schema/schemas/admin.schema';
-import { OperatorSchema } from '@app/schema/schemas/operator.schema';
-import { AdminDocument } from '@app/schema/schemas/admin.schema';
-import { AuditorDocument } from '@app/schema/schemas/auditor.schema';
-import { MongooseAdminAuthRepository } from './infra/mongoose.admin-auth.repository';
-import { OPERATOR_AUTH_REPOSITORY } from './domain/operator-auth/operator-auth.repository';
-import { ADMIN_AUTH_REPOSITORY } from './domain/admin-auth/admin-auth.repository';
-import { MongooseOperatorAuthRepository } from './infra/mongoose.operator-auth.repository';
-import { MongooseAuditorAuthRepository } from './infra/mongoose.auditor-auth.repository';
-import { AUDITOR_AUTH_REPOSITORY } from './domain/auditor-auth/auditor-auth.repository';
-import { AdminAuthService } from './application/admin-auth/admin-auth.service';
-import { OperatorAuthService } from './application/operator-auth/operator-auth.service';
-import { AuditorAuthService } from './application/auditor-auth/auditor-auth.service';
-import config from '@app/common';
-import { JwtSessionPolicy } from './infra/jwt.session-policy';
-import { SESSION_POLICY } from './domain/session-policy';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
+
+import { MongooseUserAuthRepository } from './user-auth/infra/mongoose.user-auth.repository';
+import { SESSION_POLICY } from './user-auth/domain/session-policy';
+import { JwtSessionPolicy } from './user-auth/infra/jwt.session-policy';
 import { ConnectionUrl } from '@app/common/variable/db-connection';
+import config from '@app/common';
+import { UserDocument, UserSchema } from '@app/schema/schemas/user.schema';
+import { UserAuthController } from './user-auth/presentation/user-auth.controller';
+import { CreateGameUserService } from './user-auth/application/create-game-user.service';
+import { CreateAdminUserService } from './user-auth/application/create-admin-user.service';
+import { CreateAuditorUserService } from './user-auth/application/create-auditor-user.service';
+import { CreateOperatorUserService } from './user-auth/application/create-operator-user.service';
+import { LoginUserService } from './user-auth/application/login-user.service';
+import { USER_AUTH_REPOSITORY } from './user-auth/domain/user-auth.repository';
 
 @Module({
   imports: [
@@ -39,62 +26,22 @@ import { ConnectionUrl } from '@app/common/variable/db-connection';
     MongooseModule.forRoot(ConnectionUrl, {
       authSource: 'admin',
       tls: false,
-      connectionName: 'User',
     }),
-    MongooseModule.forRoot(ConnectionUrl, {
-      authSource: 'admin',
-      tls: false,
-      connectionName: 'Admin',
-    }),
-    MongooseModule.forRoot(ConnectionUrl, {
-      authSource: 'admin',
-      tls: false,
-      connectionName: 'Auditor',
-    }),
-    MongooseModule.forRoot(ConnectionUrl, {
-      authSource: 'admin',
-      tls: false,
-      connectionName: 'Operator',
-    }),
-    MongooseModule.forFeature(
-      [{ name: GameUserDocument.name, schema: GameUserSchema }],
-      'User',
-    ),
-    MongooseModule.forFeature(
-      [{ name: AdminDocument.name, schema: AdminSchema }],
-      'Admin',
-    ),
-    MongooseModule.forFeature(
-      [{ name: AuditorDocument.name, schema: AuditorSchema }],
-      'Auditor',
-    ),
-    MongooseModule.forFeature(
-      [{ name: OperatorDocument.name, schema: OperatorSchema }],
-      'Operator',
-    ),
+    MongooseModule.forFeature([
+      { name: UserDocument.name, schema: UserSchema },
+    ]),
   ],
-  controllers: [AuthServerController],
+  controllers: [UserAuthController],
   providers: [
-    UserAuthService,
-    AdminAuthService,
-    AuditorAuthService,
-    OperatorAuthService,
+    CreateGameUserService,
+    CreateAdminUserService,
+    CreateAuditorUserService,
+    CreateOperatorUserService,
+    LoginUserService,
     JwtService,
     {
-      provide: GAME_USER_AUTH_REPOSITORY,
-      useClass: MongooseGameUserAuthRepository,
-    },
-    {
-      provide: ADMIN_AUTH_REPOSITORY,
-      useClass: MongooseAdminAuthRepository,
-    },
-    {
-      provide: OPERATOR_AUTH_REPOSITORY,
-      useClass: MongooseOperatorAuthRepository,
-    },
-    {
-      provide: AUDITOR_AUTH_REPOSITORY,
-      useClass: MongooseAuditorAuthRepository,
+      provide: USER_AUTH_REPOSITORY,
+      useClass: MongooseUserAuthRepository,
     },
     {
       provide: SESSION_POLICY,
