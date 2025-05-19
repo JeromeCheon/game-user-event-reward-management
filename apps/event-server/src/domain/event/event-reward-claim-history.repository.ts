@@ -6,4 +6,6 @@ export const EVENT_REWARD_CLAIM_HISTORY_REPOSITORY = Symbol(
 
 export interface EventRewardClaimHistoryRepository {
   insert(eventRewardClaimHistory: EventRewardClaimHistory): Promise<void>;
+  findAll(): Promise<EventRewardClaimHistory[]>;
+  findByUserId(userId: string): Promise<EventRewardClaimHistory[]>;
 }

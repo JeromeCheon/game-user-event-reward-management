@@ -7,6 +7,7 @@ import {
   Post,
   UseFilters,
   UseGuards,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { RoutingRewardService } from './routing-reward.service';
 import {
@@ -27,6 +28,7 @@ import { AuthUserInfo } from '@app/common/dto/auth-user-info';
 import { AuthUser } from '@app/common/decorator/auth-user';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
+import { RewardClaimHistoryViewModel } from '@app/common/view-model/reward-claim-history.viewmodel';
 
 @ApiTags('Rewards')
 @UseGuards(AuthGuard('jwt'))
@@ -76,10 +78,10 @@ export class RoutingRewardController {
   }
 
   @Post('claims/:eventId')
-  @ApiOperation({ summary: '보상 아이템 청구' })
+  @ApiOperation({ summary: '이벤트 보상 아이템 청구' })
   @ApiParam({
     name: 'eventId',
-    description: '청구할 보상 아이템 ID',
+    description: '청구할 보상 이벤트 ID',
   })
   @ApiResponse({
     status: 200,
@@ -120,5 +122,57 @@ export class RoutingRewardController {
       `${user.role} ${user.id} 님이 보상 아이템 목록을 조회하셨습니다. 조회된 아이템수: ${rewardItems.length}`,
     );
     return rewardItems;
+  }
+
+  @Get('claims/histories')
+  @ApiOperation({ summary: '전체 유저의 보상 청구 요청 이력' })
+  @ApiResponse({
+    status: 200,
+    description: '전체 유저의 보상 청구 요청 이력 조회 성공',
+    type: [RewardClaimHistoryViewModel],
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR, Role.AUDITOR)
+  async getAllRewardClaimHistories(@AuthUser() authUser: AuthUserInfo) {
+    const histories =
+      await this.routingRewardService.getAllRewardClaimHistories();
+    this.logger.log(
+      `${authUser.role} ${authUser.id} 님이 전체 유저의 보상 청구 요청 이력을 조회했습니다.`,
+    );
+    return histories;
+  }
+
+  @Get('claims/histories/:userId')
+  @ApiOperation({ summary: '특정 유저의 보상 청구 요청 이력' })
+  @ApiParam({
+    name: 'userId',
+    description: '사용자 ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '특정 유저의 보상 청구 요청 이력 조회 성공',
+    type: [RewardClaimHistoryViewModel],
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  async getUserRewardClaimHistories(
+    @Param('userId') userId: string,
+    @AuthUser() authUser: AuthUserInfo,
+  ) {
+    if (
+      userId !== authUser.id &&
+      authUser.role !== Role.ADMIN &&
+      authUser.role !== Role.OPERATOR
+    ) {
+      throw new UnauthorizedException('접근 권한이 없습니다.');
+    }
+
+    const histories =
+      await this.routingRewardService.getUserRewardClaimHistories(userId);
+    this.logger.log(
+      `${authUser.role} ${authUser.id} 님이 사용자 ${userId}의 보상 청구 요청 이력을 조회했습니다.`,
+    );
+    return histories;
   }
 }

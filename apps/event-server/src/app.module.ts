@@ -35,6 +35,8 @@ import { EventRewardClaimHistorySchema } from '@app/schema/schemas/event-reward-
 import { EventRewardClaimHistoryDocument } from '@app/schema/schemas/event-reward-claim-history.schema';
 import { RewardClaimController } from './presentation/reward-claim-management/reward-claim.controller';
 import { RewardClaimService } from './application/reward-claim-management/reward-claim.service';
+import { RewardClaimHistoryController } from './presentation/reward-claim-history-management/reward-claim-history.controller';
+import { RewardClaimHistoryService } from './application/reward-claim-history-management/reward-claim-history.service';
 
 @Module({
   imports: [
@@ -60,12 +62,14 @@ import { RewardClaimService } from './application/reward-claim-management/reward
     RewardItemController,
     RewardController,
     RewardClaimController,
+    RewardClaimHistoryController,
   ],
   providers: [
     EventService,
     RewardItemService,
     RewardService,
     RewardClaimService,
+    RewardClaimHistoryService,
     OnEventActivatedSubscriber,
     {
       provide: EVENT_REPOSITORY,
