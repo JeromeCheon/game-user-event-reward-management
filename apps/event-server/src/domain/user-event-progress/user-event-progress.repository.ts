@@ -8,4 +8,12 @@ export const USER_EVENT_PROGRESS_REPOSITORY = Symbol(
 export interface UserEventProgressRepository
   extends Repository<UserEventProgress> {
   insertMany(progresses: UserEventProgress[]): Promise<void>;
+  updateWithLock(
+    entity: UserEventProgress,
+    prevUpdatedAt: Date,
+  ): Promise<boolean>;
+  findOneByEventIdAndUserId(
+    eventId: string,
+    userId: string,
+  ): Promise<UserEventProgress | null>;
 }

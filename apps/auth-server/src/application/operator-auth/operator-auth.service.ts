@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Password } from '../../domain/password';
-import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
+import { DuplicateUserException } from '@app/common/exception/duplicate-user.exception';
 import { Role } from '@app/common/variable/role';
 import { OperatorAuthRepository } from '../../domain/operator-auth/operator-auth.repository';
 import { OPERATOR_AUTH_REPOSITORY } from '../../domain/operator-auth/operator-auth.repository';
 import { Operator } from '../../domain/operator-auth/operator';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
-import { NotFoundUserException } from '@app/common/exception/not-found-user-exception';
-import { InvalidPasswordException } from '@app/common/exception/invalid-password-exception';
-import { AlreadyLoggedInException } from '@app/common/exception/already-loggedin-exception';
+import { NotFoundUserException } from '@app/common/exception/not-found-user.exception';
+import { InvalidPasswordException } from '@app/common/exception/invalid-password.exception';
+import { AlreadyLoggedInException } from '@app/common/exception/already-loggedin.exception';
 import { SessionPolicy } from '../../domain/session-policy';
 import { SESSION_POLICY } from '../../domain/session-policy';
 

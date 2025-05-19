@@ -5,7 +5,6 @@ export class NotFoundUserException extends RpcException {
   constructor(name: string) {
     super({
       message: `User not found with name: ${name}`,
-      name,
       statusCode: HttpStatus.NOT_FOUND,
     });
   }

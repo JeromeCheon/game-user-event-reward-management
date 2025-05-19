@@ -17,7 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http-exception.filter';
+import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http.exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiAuthSecurity } from '@app/common/decorator/api-security';
 import { Role } from '@app/common/variable/role';

@@ -18,4 +18,9 @@ export class MongooseLookupUserRepository implements LookupUserRepository {
     const users = await this.userModel.find({ isBanned: false }).lean();
     return users.map((user) => user._id);
   }
+
+  async getUserLevelById(userId: string): Promise<number> {
+    const user = await this.userModel.findById(userId).lean();
+    return user.level;
+  }
 }

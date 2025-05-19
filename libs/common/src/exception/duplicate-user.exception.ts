@@ -5,7 +5,6 @@ export class DuplicateUserException extends RpcException {
   constructor(name: string) {
     super({
       message: `User already exists with name: ${name}`,
-      name,
       statusCode: HttpStatus.CONFLICT,
     });
   }

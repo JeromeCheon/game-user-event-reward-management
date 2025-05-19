@@ -51,4 +51,10 @@ export class UserEventProgress extends AggregateRoot<UserEventProgressProps> {
   get updatedAt() {
     return this.props.updatedAt;
   }
+
+  approveReward() {
+    this.props.isRewarded = true;
+    this.props.rewardedAt = new Date();
+    this.props.updatedAt = new Date();
+  }
 }

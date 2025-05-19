@@ -20,3 +20,17 @@ export enum EventComparisonOp {
   GTE = 'gte',
   LTE = 'lte',
 }
+
+export enum EventRewardClaimHistoryResult {
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
+export enum EventRewardClaimHistoryReason {
+  NOT_ENOUGH_LEVEL = 'not_enough_level',
+  NOT_MEET_CONDITION = 'not_meet_condition',
+  NOT_FOUND_EVENT = 'not_found_event',
+  INVALID_USER_EVENT_PROGRESS = 'invalid_user_event_progress',
+  DUPLICATE_CLAIM = 'duplicate_claim',
+  QUALIFIED = 'qualified', // for approved case
+}

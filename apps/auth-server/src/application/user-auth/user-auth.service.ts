@@ -4,16 +4,16 @@ import {
   GameUserAuthRepository,
 } from '../../domain/user-auth/game-user-auth.repository';
 import { Password } from '../../domain/password';
-import { DuplicateUserException } from '@app/common/exception/duplicate-user-exception';
+import { DuplicateUserException } from '@app/common/exception/duplicate-user.exception';
 import { Role } from '@app/common/variable/role';
 import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { GameUser } from '../../domain/user-auth/game-user';
 import { MapleJobTitle } from '@app/common/variable/maple-job-info';
 import { MapleJobType } from '@app/common/variable/maple-job-info';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
-import { NotFoundUserException } from '@app/common/exception/not-found-user-exception';
-import { InvalidPasswordException } from '@app/common/exception/invalid-password-exception';
-import { AlreadyLoggedInException } from '@app/common/exception/already-loggedin-exception';
+import { NotFoundUserException } from '@app/common/exception/not-found-user.exception';
+import { InvalidPasswordException } from '@app/common/exception/invalid-password.exception';
+import { AlreadyLoggedInException } from '@app/common/exception/already-loggedin.exception';
 import { SessionPolicy } from '../../domain/session-policy';
 import { SESSION_POLICY } from '../../domain/session-policy';
 

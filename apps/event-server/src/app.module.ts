@@ -29,6 +29,12 @@ import { GameUserDocument } from '@app/schema/schemas/user.schema';
 import { GameUserSchema } from '@app/schema/schemas/user.schema';
 import { OnEventActivatedSubscriber } from './subscription/on-event-activated.subscriber';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MongooseEventRewardClaimHistoryRepository } from './infra/mongoose.event-reward-claim-history.repository';
+import { EVENT_REWARD_CLAIM_HISTORY_REPOSITORY } from './domain/event/event-reward-claim-history.repository';
+import { EventRewardClaimHistorySchema } from '@app/schema/schemas/event-reward-claim-history.schema';
+import { EventRewardClaimHistoryDocument } from '@app/schema/schemas/event-reward-claim-history.schema';
+import { RewardClaimController } from './presentation/reward-claim-management/reward-claim.controller';
+import { RewardClaimService } from './application/reward-claim-management/reward-claim.service';
 
 @Module({
   imports: [
@@ -42,14 +48,24 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       { name: RewardDocument.name, schema: RewardSchema },
       { name: UserEventProgressDocument.name, schema: UserEventProgressSchema },
       { name: GameUserDocument.name, schema: GameUserSchema },
+      {
+        name: EventRewardClaimHistoryDocument.name,
+        schema: EventRewardClaimHistorySchema,
+      },
     ]),
     EventEmitterModule.forRoot(),
   ],
-  controllers: [EventController, RewardItemController, RewardController],
+  controllers: [
+    EventController,
+    RewardItemController,
+    RewardController,
+    RewardClaimController,
+  ],
   providers: [
     EventService,
     RewardItemService,
     RewardService,
+    RewardClaimService,
     OnEventActivatedSubscriber,
     {
       provide: EVENT_REPOSITORY,
@@ -70,6 +86,10 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     {
       provide: LOOKUP_USER_REPOSITORY,
       useClass: MongooseLookupUserRepository,
+    },
+    {
+      provide: EVENT_REWARD_CLAIM_HISTORY_REPOSITORY,
+      useClass: MongooseEventRewardClaimHistoryRepository,
     },
   ],
 })
