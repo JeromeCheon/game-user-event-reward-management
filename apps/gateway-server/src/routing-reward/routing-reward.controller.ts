@@ -29,6 +29,8 @@ import { AuthUser } from '@app/common/decorator/auth-user';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 import { RewardClaimHistoryViewModel } from '@app/common/view-model/reward-claim-history.viewmodel';
+import { RewardViewModel } from '@app/common/view-model/reward.viewmodel';
+import { RewardItemInfoViewModel } from '@app/common/view-model/reward-item-info.viewmodel';
 
 @ApiTags('Rewards')
 @UseGuards(AuthGuard('jwt'))
@@ -86,6 +88,7 @@ export class RoutingRewardController {
   @ApiResponse({
     status: 200,
     description: '보상 아이템 청구 성공',
+    type: [RewardItemInfoViewModel],
   })
   @ApiAuthSecurity()
   @UseGuards(RoleGuard)
@@ -174,5 +177,50 @@ export class RoutingRewardController {
       `${authUser.role} ${authUser.id} 님이 사용자 ${userId}의 보상 청구 요청 이력을 조회했습니다.`,
     );
     return histories;
+  }
+
+  @Get()
+  @ApiOperation({ summary: '보상 목록 조회' })
+  @ApiResponse({
+    status: 200,
+    description: '보상 목록 조회 성공',
+    type: [RewardViewModel],
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async getAllRewards(
+    @AuthUser() authUser: AuthUserInfo,
+  ): Promise<RewardViewModel[]> {
+    const rewards = await this.routingRewardService.getAllRewards();
+    this.logger.log(
+      `${authUser.role} ${authUser.id} 님이 보상 목록을 조회하셨습니다. 조회된 보상 수: ${rewards.length}`,
+    );
+    return rewards;
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: '특정 보상 조회' })
+  @ApiParam({
+    name: 'id',
+    description: '보상 ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '보상 조회 성공',
+    type: RewardViewModel,
+  })
+  @ApiAuthSecurity()
+  @UseGuards(RoleGuard)
+  @Roles(Role.ADMIN, Role.OPERATOR)
+  async getRewardById(
+    @Param('id') id: string,
+    @AuthUser() authUser: AuthUserInfo,
+  ): Promise<RewardViewModel> {
+    const reward = await this.routingRewardService.getRewardById(id);
+    this.logger.log(
+      `${authUser.role} ${authUser.id} 님이 보상 ID ${id}를 조회하셨습니다.`,
+    );
+    return reward;
   }
 }

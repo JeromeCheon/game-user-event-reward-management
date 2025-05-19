@@ -13,6 +13,8 @@ import { NotFoundEventException } from '@app/common/exception/not-found-event.ex
 import { RewardItemRepository } from '../../domain/reward-item/reward-item.repository';
 import { REWARD_ITEM_REPOSITORY } from '../../domain/reward-item/reward-item.repository';
 import { NotFoundRewardItemsException } from '@app/common/exception/not-found-reward-items.exception';
+import { RewardViewModel } from '@app/common/view-model/reward.viewmodel';
+import { NotFoundRewardException } from '@app/common/exception/not-found-reward.exception';
 
 @Injectable()
 export class RewardService {
@@ -53,5 +55,18 @@ export class RewardService {
     await this.rewardRepository.insert(reward);
     await this.eventRepository.update(event);
     return reward.id;
+  }
+
+  async getAllRewards(): Promise<RewardViewModel[]> {
+    const rewards = await this.rewardRepository.findAll();
+    return rewards.map(RewardViewModel.fromDomain);
+  }
+
+  async getRewardById(id: string): Promise<RewardViewModel> {
+    const reward = await this.rewardRepository.findById(id);
+    if (!reward) {
+      throw new NotFoundRewardException(id);
+    }
+    return RewardViewModel.fromDomain(reward);
   }
 }

@@ -7,8 +7,9 @@ import { firstValueFrom } from 'rxjs';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
-import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
 import { RewardClaimHistoryViewModel } from '@app/common/view-model/reward-claim-history.viewmodel';
+import { RewardViewModel } from '@app/common/view-model/reward.viewmodel';
+import { RewardItemInfoViewModel } from '@app/common/view-model/reward-item-info.viewmodel';
 
 @Injectable()
 export class RoutingRewardService {
@@ -37,7 +38,7 @@ export class RoutingRewardService {
   async claimReward(
     eventId: string,
     user: AuthUserInfo,
-  ): Promise<RewardItemInfo[]> {
+  ): Promise<RewardItemInfoViewModel[]> {
     return await firstValueFrom(
       this.eventClient.send(
         { cmd: EVENT_SERVER_COMMAND.CLAIM_EVENT_REWARD },
@@ -72,6 +73,18 @@ export class RoutingRewardService {
         { cmd: EVENT_SERVER_COMMAND.GET_USER_REWARD_CLAIM_HISTORIES },
         { userId },
       ),
+    );
+  }
+
+  async getAllRewards(): Promise<RewardViewModel[]> {
+    return await firstValueFrom(
+      this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.GET_ALL_REWARDS }, {}),
+    );
+  }
+
+  async getRewardById(id: string): Promise<RewardViewModel> {
+    return await firstValueFrom(
+      this.eventClient.send({ cmd: EVENT_SERVER_COMMAND.GET_REWARD_BY_ID }, id),
     );
   }
 }

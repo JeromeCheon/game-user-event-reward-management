@@ -12,4 +12,14 @@ export class RewardController {
   async createReward(dto: CreateRewardDto): Promise<string> {
     return await this.rewardService.createReward(dto);
   }
+
+  @MessagePattern({ cmd: EVENT_SERVER_COMMAND.GET_ALL_REWARDS })
+  async getAllRewards() {
+    return await this.rewardService.getAllRewards();
+  }
+
+  @MessagePattern({ cmd: EVENT_SERVER_COMMAND.GET_REWARD_BY_ID })
+  async getRewardById(id: string) {
+    return await this.rewardService.getRewardById(id);
+  }
 }

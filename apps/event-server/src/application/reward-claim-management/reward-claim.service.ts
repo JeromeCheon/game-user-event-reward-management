@@ -8,7 +8,6 @@ import {
   EventRewardClaimHistoryReason,
 } from '@app/common/variable/event-type';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
-import { RewardItemInfo } from '../../domain/reward/reward-item-info';
 import { EventRewardClaimHistoryResult } from '@app/common/variable/event-type';
 import { USER_EVENT_PROGRESS_REPOSITORY } from '../../domain/user-event-progress/user-event-progress.repository';
 import {
@@ -30,7 +29,7 @@ import { EventCondition } from '../../domain/event/event-condition';
 import { ProgressStatus } from '../../domain/user-event-progress/progress-status';
 import { RewardRepository } from '../../domain/reward/reward.repository';
 import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
-
+import { RewardItemInfoViewModel } from '@app/common/view-model/reward-item-info.viewmodel';
 @Injectable()
 export class RewardClaimService {
   constructor(
@@ -52,7 +51,7 @@ export class RewardClaimService {
   }: {
     eventId: string;
     user: AuthUserInfo;
-  }): Promise<RewardItemInfo[]> {
+  }): Promise<RewardItemInfoViewModel[]> {
     let resultCode: EventRewardClaimHistoryResult;
     let reason: EventRewardClaimHistoryReason;
 
@@ -118,7 +117,7 @@ export class RewardClaimService {
       resultCode = EventRewardClaimHistoryResult.APPROVED;
       reason = EventRewardClaimHistoryReason.QUALIFIED;
       const reward = await this.rewardRepository.findByEventId(event.id);
-      return reward?.items || [];
+      return reward?.items.map(RewardItemInfoViewModel.fromDomain) || [];
     } finally {
       const eventRewardClaimHistory = new EventRewardClaimHistory({
         eventId: eventId,

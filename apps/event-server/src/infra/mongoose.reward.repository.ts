@@ -36,4 +36,16 @@ export class MongooseRewardRepository implements RewardRepository {
     const doc = await this.rewardModel.findOne({ eventId }).lean();
     return doc ? Object.assign(new RewardDocument(), doc).toDomain() : null;
   }
+
+  async findAll(): Promise<Reward[]> {
+    const docs = await this.rewardModel.find().lean();
+    return docs.map((doc) =>
+      Object.assign(new RewardDocument(), doc).toDomain(),
+    );
+  }
+
+  async findById(id: string): Promise<Reward | null> {
+    const doc = await this.rewardModel.findById(id).lean();
+    return doc ? Object.assign(new RewardDocument(), doc).toDomain() : null;
+  }
 }
