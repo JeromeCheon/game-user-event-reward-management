@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Password } from '../../../../apps/auth-server/src/domain/password';
+import { Document } from 'mongoose';
 import { Role } from '@app/common/variable/role';
-import { GameUser } from 'apps/auth-server/src/domain/user-auth/game-user';
 import { WorldServerType } from '@app/common/variable/world-server-type';
-import {
-  MapleJobType,
-  MapleJobTitle,
-} from '@app/common/variable/maple-job-info';
+import { MapleJobInfo } from '@app/common/variable/maple-job-info';
+import { User } from 'apps/auth-server/src/user-auth/domain/user';
+import { Password } from 'apps/auth-server/src/user-auth/domain/password';
 
 @Schema()
 export class MapleJobInfoDocument {
@@ -24,9 +22,9 @@ export const MapleJobInfoSchema =
   SchemaFactory.createForClass(MapleJobInfoDocument);
 
 @Schema({
-  collection: 'game-users',
+  collection: 'users',
 })
-export class GameUserDocument {
+export class UserDocument {
   @Prop({ type: String })
   _id: string;
 
@@ -39,20 +37,11 @@ export class GameUserDocument {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
-  role: string;
+  @Prop({ required: true, type: String, enum: Role })
+  role: Role;
 
-  @Prop({ required: true })
-  level: number;
-
-  @Prop({ required: true })
-  baseServer: string;
-
-  @Prop({ required: true, type: MapleJobInfoSchema, _id: false })
-  job: MapleJobInfoDocument;
-
-  @Prop({ required: false })
-  recommandorAccount: string;
+  @Prop({ required: true, type: String, enum: WorldServerType })
+  baseServer: WorldServerType;
 
   @Prop({ required: true })
   createdAt: Date;
@@ -63,65 +52,67 @@ export class GameUserDocument {
   @Prop({ required: true })
   isLoggedIn: boolean;
 
-  @Prop({ required: true })
-  isBanned: boolean;
+  @Prop({ required: false })
+  level?: number;
+
+  @Prop({ required: false, type: MapleJobInfoSchema, _id: false })
+  job?: MapleJobInfoDocument;
+
+  @Prop({ required: false, default: false })
+  isBanned?: boolean;
 
   @Prop({ required: false })
   lastLoginAt?: Date;
 
-  static fromDomain(user: GameUser): GameUserDocument {
-    const doc = new GameUserDocument();
+  static fromDomain(user: User): UserDocument {
+    const doc = new UserDocument();
     doc._id = user.id;
     doc.account = user.account;
     doc.password = user.password.value;
     doc.name = user.name;
     doc.role = user.role;
-    doc.level = user.level;
     doc.baseServer = user.baseServer;
-    if (user.recommandorAccount) {
-      doc.recommandorAccount = user.recommandorAccount;
-    }
-    if (user.lastLoginAt) {
-      doc.lastLoginAt = user.lastLoginAt;
-    }
     doc.createdAt = user.createdAt;
     doc.updatedAt = user.updatedAt;
     doc.isLoggedIn = user.isLoggedIn;
+
+    doc.lastLoginAt = user.lastLoginAt;
+
+    doc.level = user.level;
+
+    if (user.job) {
+      const job = new MapleJobInfoDocument();
+      job.type = user.job.type;
+      job.title = user.job.title;
+      job.degree = user.job.degree;
+      doc.job = job;
+    }
+
     doc.isBanned = user.isBanned;
-    const job = new MapleJobInfoDocument();
-    job.type = user.job.type;
-    job.title = user.job.title;
-    job.degree = user.job.degree;
-    doc.job = job;
 
     return doc;
   }
 
-  toDomain(): GameUser {
-    return GameUser.from(
+  toDomain(): User {
+    return User.from(
       {
         account: this.account,
         password: Password.from(this.password),
         name: this.name,
         role: this.role as Role,
-        level: this.level,
         baseServer: this.baseServer as WorldServerType,
-        job: {
-          type: this.job.type as MapleJobType,
-          title: this.job.title as MapleJobTitle,
-          degree: this.job.degree,
-        },
-        recommandorAccount: this.recommandorAccount ?? undefined,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
         isLoggedIn: this.isLoggedIn,
+        lastLoginAt: this.lastLoginAt,
+        level: this.level,
+        job: { ...this.job } as MapleJobInfo,
         isBanned: this.isBanned,
-        lastLoginAt: this.lastLoginAt ?? undefined,
       },
       this._id,
     );
   }
 }
 
-export type GameUserModel = GameUserDocument & Document;
-export const GameUserSchema = SchemaFactory.createForClass(GameUserDocument);
+export type UserModel = UserDocument & Document;
+export const UserSchema = SchemaFactory.createForClass(UserDocument);

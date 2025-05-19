@@ -2,20 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { LookupUserRepository } from '../domain/user-event-progress/lookup-user-repository';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  GameUserDocument,
-  GameUserModel,
-} from '@app/schema/schemas/user.schema';
+import { UserDocument, UserModel } from '@app/schema/schemas/user.schema';
+import { Role } from '@app/common/variable/role';
 
 @Injectable()
 export class MongooseLookupUserRepository implements LookupUserRepository {
   constructor(
-    @InjectModel(GameUserDocument.name)
-    private readonly userModel: Model<GameUserModel>,
+    @InjectModel(UserDocument.name)
+    private readonly userModel: Model<UserModel>,
   ) {}
 
   async getUserIdsExceptBanned(): Promise<string[]> {
-    const users = await this.userModel.find({ isBanned: false }).lean();
+    const users = await this.userModel
+      .find({ isBanned: false, role: Role.USER })
+      .lean();
     return users.map((user) => user._id);
   }
 

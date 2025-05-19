@@ -3,10 +3,10 @@ import { ClientProxy } from '@nestjs/microservices';
 import { AUTH_SERVER } from '@app/common/variable/symbols';
 import { firstValueFrom } from 'rxjs';
 import { AUTH_SERVER_COMMAND } from '@app/common/variable/auth-server-command';
-import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
+import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 
 @Injectable()
 export class IdentityAccessService {

@@ -2,10 +2,10 @@ import { Body, Controller, Logger, Post, UseFilters } from '@nestjs/common';
 import { IdentityAccessService } from './identity-access.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomHttpExceptionFilter } from '@app/common/exception/custom-http.exception.filter';
-import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 import { CreateUserDto } from '@app/common/dto/create-user-dto';
 import { CreateOperatorDto } from '@app/common/dto/create-operator-dto';
 import { LoginUserDto } from '@app/common/dto/login-user-dto';
+import { CreateGameUserDto } from '@app/common/dto/create-game-user-dto';
 
 @ApiTags('Auth')
 @Controller('v1/auth')

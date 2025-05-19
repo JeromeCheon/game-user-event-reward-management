@@ -25,8 +25,6 @@ import { MongooseLookupUserRepository } from './infra/mongoose.lookup-user-repos
 import { LOOKUP_USER_REPOSITORY } from './domain/user-event-progress/lookup-user-repository';
 import { UserEventProgressDocument } from '@app/schema/schemas/user-event-progress.schema';
 import { UserEventProgressSchema } from '@app/schema/schemas/user-event-progress.schema';
-import { GameUserDocument } from '@app/schema/schemas/user.schema';
-import { GameUserSchema } from '@app/schema/schemas/user.schema';
 import { OnEventActivatedSubscriber } from './subscription/on-event-activated.subscriber';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseEventRewardClaimHistoryRepository } from './infra/mongoose.event-reward-claim-history.repository';
@@ -37,6 +35,7 @@ import { RewardClaimController } from './presentation/reward-claim-management/re
 import { RewardClaimService } from './application/reward-claim-management/reward-claim.service';
 import { RewardClaimHistoryController } from './presentation/reward-claim-history-management/reward-claim-history.controller';
 import { RewardClaimHistoryService } from './application/reward-claim-history-management/reward-claim-history.service';
+import { UserDocument, UserSchema } from '@app/schema/schemas/user.schema';
 
 @Module({
   imports: [
@@ -49,7 +48,7 @@ import { RewardClaimHistoryService } from './application/reward-claim-history-ma
       { name: RewardItemDocument.name, schema: RewardItemSchema },
       { name: RewardDocument.name, schema: RewardSchema },
       { name: UserEventProgressDocument.name, schema: UserEventProgressSchema },
-      { name: GameUserDocument.name, schema: GameUserSchema },
+      { name: UserDocument.name, schema: UserSchema },
       {
         name: EventRewardClaimHistoryDocument.name,
         schema: EventRewardClaimHistorySchema,
