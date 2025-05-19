@@ -4,12 +4,10 @@ import { ProgressStatus } from './progress-status';
 interface UserEventProgressProps {
   userId: string;
   eventId: string;
-  progressStatus: ProgressStatus;
-  isCompleted: boolean;
+  progressStatus: ProgressStatus[];
   isRewarded: boolean;
   createdAt: Date;
   updatedAt: Date;
-  completedAt?: Date;
   rewardedAt?: Date;
 }
 
@@ -38,16 +36,8 @@ export class UserEventProgress extends AggregateRoot<UserEventProgressProps> {
     return this.props.progressStatus;
   }
 
-  get isCompleted() {
-    return this.props.isCompleted;
-  }
-
   get isRewarded() {
     return this.props.isRewarded;
-  }
-
-  get completedAt() {
-    return this.props.completedAt;
   }
 
   get rewardedAt() {

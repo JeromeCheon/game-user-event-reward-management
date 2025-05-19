@@ -19,11 +19,8 @@ export class UserEventProgressDocument {
   @Prop({ required: true })
   eventId: string;
 
-  @Prop({ required: true, type: Object })
-  progressStatus: ProgressStatusType;
-
-  @Prop({ required: true })
-  isCompleted: boolean;
+  @Prop({ required: true, type: [Object] })
+  progressStatus: ProgressStatusType[];
 
   @Prop({ required: true })
   isRewarded: boolean;
@@ -35,9 +32,6 @@ export class UserEventProgressDocument {
   updatedAt: Date;
 
   @Prop({ required: false })
-  completedAt?: Date;
-
-  @Prop({ required: false })
   rewardedAt?: Date;
 
   static fromDomain(
@@ -47,13 +41,13 @@ export class UserEventProgressDocument {
     doc._id = userEventProgress.id;
     doc.userId = userEventProgress.userId;
     doc.eventId = userEventProgress.eventId;
-    doc.progressStatus = userEventProgress.progressStatus.toValue();
-    doc.isCompleted = userEventProgress.isCompleted;
+    doc.progressStatus = userEventProgress.progressStatus.map((status) =>
+      status.toValue(),
+    );
     doc.isRewarded = userEventProgress.isRewarded;
-    doc.completedAt = userEventProgress.completedAt;
-    doc.rewardedAt = userEventProgress.rewardedAt;
     doc.createdAt = userEventProgress.createdAt;
     doc.updatedAt = userEventProgress.updatedAt;
+    doc.rewardedAt = userEventProgress.rewardedAt ?? undefined;
     return doc;
   }
 
@@ -62,13 +56,13 @@ export class UserEventProgressDocument {
       {
         userId: this.userId,
         eventId: this.eventId,
-        progressStatus: new ProgressStatus(this.progressStatus),
-        isCompleted: this.isCompleted,
+        progressStatus: this.progressStatus.map(
+          (status) => new ProgressStatus(status),
+        ),
         isRewarded: this.isRewarded,
-        completedAt: this.completedAt,
-        rewardedAt: this.rewardedAt,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
+        rewardedAt: this.rewardedAt,
       },
       this._id,
     );
