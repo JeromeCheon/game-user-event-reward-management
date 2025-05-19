@@ -14,6 +14,8 @@ import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
 import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
 import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { InvalidEventRewardException } from '@app/common/exception/invalid-event-reward.exception';
+import { UnauthorizedAccessEventException } from '@app/common/exception/unauthorized-access-event.exception';
 
 @Injectable()
 export class EventService {
@@ -62,14 +64,16 @@ export class EventService {
     user: AuthUserInfo;
   }): Promise<EventViewModel> {
     const event = await this.eventRepository.findById(id);
-
     if (!event) {
       throw new NotFoundEventException(id);
     }
 
-    const rewards = await this.rewardRepository.findByEventIds([id]);
-    const rewardItems =
-      rewards.find((reward) => reward.eventId === id)?.items || [];
+    if (user.role === Role.USER && !event.isActive) {
+      throw new UnauthorizedAccessEventException(id, user.id);
+    }
+
+    const reward = await this.rewardRepository.findByEventId(id);
+    const rewardItems = reward?.items || [];
 
     return user.role === Role.USER
       ? EventViewModel.forGameUser(event, rewardItems)
@@ -87,6 +91,11 @@ export class EventService {
     if (!event) {
       throw new NotFoundEventException(id);
     }
+
+    if (!event.rewardId) {
+      throw new InvalidEventRewardException(id);
+    }
+
     if (event.isActive === dto.isActive) {
       return false;
     }

@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 interface CustomException {
   statusCode: number;
   message: string;
+  key: string;
 }
 
 @Catch()
@@ -34,6 +35,7 @@ export class CustomHttpExceptionFilter implements ExceptionFilter {
           statusCode: status,
           timestamp: new Date().toISOString(),
           path: request.url,
+          key: (exception as CustomException).key || 'unknown',
           data: (exception as CustomException).message,
         });
       } else return response.status(500).json(exception);
