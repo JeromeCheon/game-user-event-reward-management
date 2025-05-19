@@ -11,7 +11,7 @@ import { Role } from '@app/common/variable/role';
 import { EventViewModel } from '@app/common/view-model/event.viewmodel';
 import { RewardRepository } from '../../domain/reward/reward.repository';
 import { REWARD_REPOSITORY } from '../../domain/reward/reward.repository';
-import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
+import { NotFoundEventException } from '@app/common/exception/not-found-event.exception';
 import { UpdateEventActiveDto } from '@app/common/dto/update-event-active.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InvalidEventRewardException } from '@app/common/exception/invalid-event-reward.exception';

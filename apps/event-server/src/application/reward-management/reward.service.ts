@@ -9,7 +9,7 @@ import {
   EventRepository,
   EVENT_REPOSITORY,
 } from '../../domain/event/event.repository';
-import { NotFoundEventException } from '@app/common/exception/not-found-event-exception';
+import { NotFoundEventException } from '@app/common/exception/not-found-event.exception';
 import { RewardItemRepository } from '../../domain/reward-item/reward-item.repository';
 import { REWARD_ITEM_REPOSITORY } from '../../domain/reward-item/reward-item.repository';
 import { NotFoundRewardItemsException } from '@app/common/exception/not-found-reward-items.exception';

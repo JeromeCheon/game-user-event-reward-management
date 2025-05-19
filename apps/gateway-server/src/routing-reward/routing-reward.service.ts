@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { CreateRewardItemDto } from '@app/common/dto/create-reward-item.dto';
 import { RewardItemViewModel } from '@app/common/view-model/reward-item.viewmodel';
 import { AuthUserInfo } from '@app/common/dto/auth-user-info';
+import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
 
 @Injectable()
 export class RoutingRewardService {
@@ -28,6 +29,18 @@ export class RoutingRewardService {
       this.eventClient.send(
         { cmd: EVENT_SERVER_COMMAND.CREATE_REWARD_ITEM },
         dto,
+      ),
+    );
+  }
+
+  async claimReward(
+    eventId: string,
+    user: AuthUserInfo,
+  ): Promise<RewardItemInfo[]> {
+    return await firstValueFrom(
+      this.eventClient.send(
+        { cmd: EVENT_SERVER_COMMAND.CLAIM_EVENT_REWARD },
+        { eventId, user },
       ),
     );
   }
