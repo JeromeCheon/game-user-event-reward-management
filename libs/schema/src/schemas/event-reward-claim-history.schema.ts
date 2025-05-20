@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { EventRewardClaimHistoryResult } from '@app/common/variable/event-type';
 import { EventRewardClaimHistoryReason } from '@app/common/variable/event-type';
-import { EventRewardClaimHistory } from 'apps/event-server/src/domain/event/event-reward-claim-history';
+import { EventRewardClaimHistory } from 'apps/event-server/src/event-management/domain/event-reward-claim-history';
 
 @Schema({
   collection: 'event-reward-claim-histories',

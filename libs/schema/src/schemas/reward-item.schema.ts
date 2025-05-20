@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { RewardItem } from 'apps/event-server/src/domain/reward-item/reward-item';
 import { Document } from 'mongoose';
-
+import { RewardItem } from 'apps/event-server/src/reward-management/domain/reward-item';
 @Schema({ collection: 'reward-items' })
 export class RewardItemDocument {
   @Prop({ type: String })

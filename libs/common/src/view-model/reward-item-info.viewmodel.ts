@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
+import { RewardItemInfo } from 'apps/event-server/src/reward-management/domain/reward-item-info';
 
 export class RewardItemInfoViewModel {
   @ApiProperty({

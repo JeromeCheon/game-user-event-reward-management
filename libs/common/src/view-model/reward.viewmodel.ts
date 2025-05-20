@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { RewardType } from 'apps/event-server/src/domain/reward/reward-type';
-import { Reward } from 'apps/event-server/src/domain/reward/reward';
+import { RewardType } from 'apps/event-server/src/reward-management/domain/reward-type';
+import { Reward } from 'apps/event-server/src/reward-management/domain/reward';
 import { RewardItemInfoViewModel } from './reward-item-info.viewmodel';
 
 export class RewardViewModel {
