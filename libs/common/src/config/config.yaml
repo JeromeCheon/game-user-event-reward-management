@@ -8,3 +8,11 @@ mongodb:
 jwt:
   secret: secretKey
   expiresIn: 86400
+
+auth:
+  host: localhost
+  port: 3001
+
+event:
+  host: localhost
+  port: 3002
