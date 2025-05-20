@@ -3,6 +3,7 @@ import { RoutingEventService } from './routing-event.service';
 import { RoutingEventController } from './routing-event.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EVENT_SERVER } from '@app/common/variable/symbols';
+import config from '@app/common';
 
 @Module({
   imports: [
@@ -11,8 +12,8 @@ import { EVENT_SERVER } from '@app/common/variable/symbols';
         name: EVENT_SERVER,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
-          port: 3002,
+          host: config.get('event.host'),
+          port: config.get('event.port'),
         },
       },
     ]),

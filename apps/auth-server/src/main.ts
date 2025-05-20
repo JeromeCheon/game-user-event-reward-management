@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Logger } from '@nestjs/common';
+import config from '@app/common';
 
 async function bootstrap() {
   const logger = new Logger('AuthServer');
@@ -10,12 +11,12 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
-        port: 3001,
+        host: config.get('auth.host'),
+        port: config.get('auth.port'),
       },
     },
   );
   await app.listen();
-  logger.log('Auth server is listening on port 3001');
+  logger.log(`Auth server is listening on port ${config.get('auth.port')}`);
 }
 bootstrap();

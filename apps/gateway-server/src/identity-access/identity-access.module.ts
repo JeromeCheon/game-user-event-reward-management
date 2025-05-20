@@ -18,8 +18,8 @@ import { JwtStrategy } from './jwt.strategy';
         name: AUTH_SERVER,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
-          port: 3001,
+          host: config.get('auth.host'),
+          port: config.get('auth.port'),
         },
       },
     ]),

@@ -36,7 +36,10 @@ import { EVENT_SERVER } from '@app/common/variable/symbols';
       {
         name: EVENT_SERVER,
         transport: Transport.TCP,
-        options: { host: 'localhost', port: 3002 },
+        options: {
+          host: config.get('event.host'),
+          port: config.get('event.port'),
+        },
       },
     ]),
   ],
