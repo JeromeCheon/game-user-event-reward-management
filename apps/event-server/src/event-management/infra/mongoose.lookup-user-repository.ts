@@ -26,6 +26,9 @@ export class MongooseLookupUserRepository implements LookupUserRepository {
 
   async getUserIdByName(name: string): Promise<string | null> {
     const user = await this.userModel.findOne({ name }).lean();
-    return user._id ?? null;
+    if (!user) {
+      return null;
+    }
+    return user._id;
   }
 }

@@ -63,6 +63,17 @@ export class UserEventProgress extends AggregateRoot<UserEventProgressProps> {
     }
     this.props.updatedAt = new Date();
   }
+
+  updateAttendanceCount() {
+    const progressStatus = this.props.progressStatus.find(
+      (progress) => progress.conditionType === EventConditionType.LOGIN_COUNT,
+    );
+    if (progressStatus) {
+      progressStatus.value++;
+    }
+    this.props.updatedAt = new Date();
+  }
+
   approveReward() {
     this.props.isRewarded = true;
     this.props.rewardedAt = new Date();

@@ -40,9 +40,8 @@ export class OnUserCreatedSubscriber {
     await this.handleRecommandEvent(recommandorName, events);
     const dateOccurred = new Date();
     const initialUseProgressList: UserEventProgress[] = [];
-    const newbieEvents = events.filter((event) => event.minLevel === 1);
 
-    newbieEvents.map((event) => {
+    events.map((event) => {
       initialUseProgressList.push(
         UserEventProgress.create({
           userId,

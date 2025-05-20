@@ -12,4 +12,5 @@ export const EVENT_SERVER_COMMAND = {
   GET_ALL_REWARDS: 'get-all-rewards',
   GET_REWARD_BY_ID: 'get-reward-by-id',
   AFTER_USER_CREATED: 'after-user-created',
+  AFTER_USER_LOGIN: 'after-user-login',
 };
