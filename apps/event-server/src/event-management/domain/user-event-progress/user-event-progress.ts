@@ -1,5 +1,6 @@
 import { AggregateRoot } from '@app/common/base/aggregate-root';
 import { ProgressStatus } from './progress-status';
+import { EventConditionType } from '@app/common/variable/event-type';
 
 interface UserEventProgressProps {
   userId: string;
@@ -52,6 +53,16 @@ export class UserEventProgress extends AggregateRoot<UserEventProgressProps> {
     return this.props.updatedAt;
   }
 
+  updateRecommandCount() {
+    const progressStatus = this.props.progressStatus.find(
+      (progress) =>
+        progress.conditionType === EventConditionType.RECOMMEND_COUNT,
+    );
+    if (progressStatus) {
+      progressStatus.value++;
+    }
+    this.props.updatedAt = new Date();
+  }
   approveReward() {
     this.props.isRewarded = true;
     this.props.rewardedAt = new Date();

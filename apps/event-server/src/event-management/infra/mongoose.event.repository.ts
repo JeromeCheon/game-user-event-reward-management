@@ -35,4 +35,11 @@ export class MongooseEventRepository implements EventRepository {
     if (!doc) return null;
     return Object.assign(new EventDocument(), doc).toDomain();
   }
+
+  async findAllActive(): Promise<Event[]> {
+    const docs = await this.eventModel.find({ isActive: true }).lean();
+    return docs.map((doc) =>
+      Object.assign(new EventDocument(), doc).toDomain(),
+    );
+  }
 }

@@ -16,6 +16,8 @@ import { CreateAuditorUserService } from './user-auth/application/create-auditor
 import { CreateOperatorUserService } from './user-auth/application/create-operator-user.service';
 import { LoginUserService } from './user-auth/application/login-user.service';
 import { USER_AUTH_REPOSITORY } from './user-auth/domain/user-auth.repository';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { EVENT_SERVER } from '@app/common/variable/symbols';
 
 @Module({
   imports: [
@@ -29,6 +31,13 @@ import { USER_AUTH_REPOSITORY } from './user-auth/domain/user-auth.repository';
     }),
     MongooseModule.forFeature([
       { name: UserDocument.name, schema: UserSchema },
+    ]),
+    ClientsModule.register([
+      {
+        name: EVENT_SERVER,
+        transport: Transport.TCP,
+        options: { host: 'localhost', port: 3002 },
+      },
     ]),
   ],
   controllers: [UserAuthController],
