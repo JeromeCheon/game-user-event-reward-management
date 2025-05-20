@@ -15,7 +15,6 @@ export class JwtSessionPolicy implements SessionPolicy {
     const payload: SessionPayload = {
       id: user.id,
       role: user.role,
-      expiredAt: new Date(Date.now() + config.get('jwt.expiresIn')),
     };
 
     return this.jwtService.sign(payload, {

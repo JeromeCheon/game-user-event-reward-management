@@ -55,4 +55,11 @@ export class MongooseUserEventProgressRepository
       ? Object.assign(new UserEventProgressDocument(), doc).toDomain()
       : null;
   }
+
+  async findAllByUserId(userId: string): Promise<UserEventProgress[]> {
+    const docs = await this.progressModel.find({ userId }).lean();
+    return docs.map((doc) =>
+      Object.assign(new UserEventProgressDocument(), doc).toDomain(),
+    );
+  }
 }

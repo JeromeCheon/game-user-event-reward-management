@@ -16,4 +16,6 @@ export interface UserEventProgressRepository
     eventId: string,
     userId: string,
   ): Promise<UserEventProgress | null>;
+
+  findAllByUserId(userId: string): Promise<UserEventProgress[]>;
 }

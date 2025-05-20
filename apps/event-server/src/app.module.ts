@@ -53,6 +53,7 @@ import { GetRewardsService } from './reward-management/application/get-rewards.s
 import { GetRewardItemsService } from './reward-management/application/get-reward-items.service';
 import { GetRewardClaimHistoryDetailService } from './reward-management/application/get-reward-claim-history-detail.service';
 import { OnUserCreatedSubscriber } from './event-management/subscription/on-user-created.subscriber';
+import { OnUserLoggedInSubscriber } from './event-management/subscription/on-user-loggedin.subscriber';
 
 @Module({
   imports: [
@@ -79,7 +80,9 @@ import { OnUserCreatedSubscriber } from './event-management/subscription/on-user
     RewardController,
     RewardClaimController,
     RewardClaimHistoryController,
+    OnEventActivatedSubscriber,
     OnUserCreatedSubscriber,
+    OnUserLoggedInSubscriber,
   ],
   providers: [
     GetEventsService,
@@ -92,7 +95,7 @@ import { OnUserCreatedSubscriber } from './event-management/subscription/on-user
     CreateRewardItemService,
     ClaimEventRewardService,
     GetRewardClaimHistoriesService,
-    OnEventActivatedSubscriber,
+
     GetRewardItemsService,
     GetRewardClaimHistoryDetailService,
     {

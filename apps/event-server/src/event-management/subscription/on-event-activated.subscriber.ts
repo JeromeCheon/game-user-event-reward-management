@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Controller, Inject, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { EventActivated } from '../events/event-activated.event';
 import {
@@ -12,7 +12,7 @@ import {
   LookupUserRepository,
 } from '../domain/user-event-progress/lookup-user-repository';
 
-@Injectable()
+@Controller()
 export class OnEventActivatedSubscriber {
   private readonly logger = new Logger(OnEventActivatedSubscriber.name);
   constructor(

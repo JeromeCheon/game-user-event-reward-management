@@ -11,6 +11,9 @@ import {
   UserAuthRepository,
 } from '../domain/user-auth.repository';
 import { InvalidUserLoginException } from '@app/common/exception/invalid-user-login.exception';
+import { EVENT_SERVER } from '@app/common/variable/symbols';
+import { ClientProxy } from '@nestjs/microservices';
+import { EVENT_SERVER_COMMAND } from '@app/common/variable/event-server-command';
 
 @Injectable()
 export class LoginUserService {
@@ -19,6 +22,8 @@ export class LoginUserService {
     private readonly userAuthRepository: UserAuthRepository,
     @Inject(SESSION_POLICY)
     private readonly sessionPolicy: SessionPolicy,
+    @Inject(EVENT_SERVER)
+    private readonly eventClient: ClientProxy,
   ) {}
 
   async login(body: LoginUserDto, expectedRole: Role): Promise<string> {
@@ -50,6 +55,10 @@ export class LoginUserService {
     const token = await this.sessionPolicy.issueToken(user);
     user.login();
     await this.userAuthRepository.update(user);
+    this.eventClient.emit(
+      { cmd: EVENT_SERVER_COMMAND.AFTER_USER_LOGIN },
+      user.id,
+    );
     return token;
   }
 }
