@@ -3,7 +3,6 @@ import { Role } from '@app/common/variable/role';
 import { Password } from './password';
 import { WorldServerType } from '@app/common/variable/world-server-type';
 import { MapleJobInfo } from '@app/common/variable/maple-job-info';
-import { UserCreatedEvent } from '../events/user-created.event';
 
 export interface UserProps {
   account: string;
@@ -93,10 +92,7 @@ export class User extends AggregateRoot<UserProps> {
   }
 
   static createAdmin(
-    props: Omit<
-      UserProps,
-      'role' | 'level' | 'job' | 'recommandorAccount' | 'isBanned'
-    >,
+    props: Omit<UserProps, 'role' | 'level' | 'job' | 'isBanned'>,
     id?: string,
   ): User {
     return new User(
@@ -109,10 +105,7 @@ export class User extends AggregateRoot<UserProps> {
   }
 
   static createAuditor(
-    props: Omit<
-      UserProps,
-      'role' | 'level' | 'job' | 'recommandorAccount' | 'isBanned'
-    >,
+    props: Omit<UserProps, 'role' | 'level' | 'job' | 'isBanned'>,
     id?: string,
   ): User {
     return new User(
@@ -125,7 +118,7 @@ export class User extends AggregateRoot<UserProps> {
   }
 
   static createOperator(
-    props: Omit<UserProps, 'role' | 'recommandorAccount' | 'isBanned'> & {
+    props: Omit<UserProps, 'role' | 'isBanned'> & {
       level: number;
       job: MapleJobInfo;
     },
@@ -145,21 +138,15 @@ export class User extends AggregateRoot<UserProps> {
       level: number;
       job: MapleJobInfo;
       isBanned: boolean;
-      recommandorAccount?: string;
     },
     id?: string,
   ): User {
-    const { recommandorAccount, ...rest } = props;
-    const user = new User(
+    return new User(
       {
-        ...rest,
+        ...props,
         role: Role.USER,
       },
       id,
     );
-    if (recommandorAccount) {
-      user.addDomainEvent(new UserCreatedEvent(user, recommandorAccount));
-    }
-    return user;
   }
 }

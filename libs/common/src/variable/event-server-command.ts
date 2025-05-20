@@ -11,4 +11,5 @@ export const EVENT_SERVER_COMMAND = {
   GET_USER_REWARD_CLAIM_HISTORIES: 'get-user-reward-claim-histories',
   GET_ALL_REWARDS: 'get-all-rewards',
   GET_REWARD_BY_ID: 'get-reward-by-id',
+  AFTER_USER_CREATED: 'after-user-created',
 };

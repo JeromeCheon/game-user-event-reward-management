@@ -23,9 +23,7 @@ export class OnEventActivatedSubscriber {
   ) {}
 
   @OnEvent('event.activated', { async: true })
-  async handleActivatedTriggerProgressEvent({
-    event,
-  }: EventActivated): Promise<void> {
+  async handle({ event }: EventActivated): Promise<void> {
     const initialUseProgressList: UserEventProgress[] = [];
     const activeUserIds =
       await this.lookupUserRepository.getUserIdsExceptBanned();
