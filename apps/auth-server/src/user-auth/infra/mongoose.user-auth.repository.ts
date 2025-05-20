@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserAuthRepository } from '../domain/user-auth.repository';
 import { Model } from 'mongoose';
-import {
-  UserDocument,
-  UserModel,
-} from '@app/schema/schemas/user.schema';
+import { UserDocument, UserModel } from '@app/schema/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../domain/user';
 import { Role } from '@app/common/variable/role';

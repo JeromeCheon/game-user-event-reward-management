@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import {
   ProgressStatus,
   ProgressStatusType,
-} from 'apps/event-server/src/domain/user-event-progress/progress-status';
-import { UserEventProgress } from 'apps/event-server/src/domain/user-event-progress/user-event-progress';
+} from 'apps/event-server/src/event-management/domain/user-event-progress/progress-status';
+import { UserEventProgress } from 'apps/event-server/src/event-management/domain/user-event-progress/user-event-progress';
 import { Document } from 'mongoose';
 
 @Schema({

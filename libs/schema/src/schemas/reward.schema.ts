@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Reward } from 'apps/event-server/src/domain/reward/reward';
-import { RewardType } from 'apps/event-server/src/domain/reward/reward-type';
-import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
+import { Reward } from 'apps/event-server/src/reward-management/domain/reward';
+import { RewardType } from 'apps/event-server/src/reward-management/domain/reward-type';
+import { RewardItemInfo } from 'apps/event-server/src/reward-management/domain/reward-item-info';
 import { Document } from 'mongoose';
 
 @Schema({ collection: 'rewards' })

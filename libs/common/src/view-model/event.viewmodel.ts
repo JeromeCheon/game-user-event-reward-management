@@ -1,10 +1,9 @@
-import { EventCondition } from 'apps/event-server/src/domain/event/event-condition';
+import { EventCondition } from 'apps/event-server/src/event-management/domain/event-condition';
 import { ApiProperty } from '@nestjs/swagger';
 import { EventType } from '@app/common/variable/event-type';
-import { EventCreater } from 'apps/event-server/src/domain/event/event-creater';
-import { Event } from 'apps/event-server/src/domain/event/event';
-import { RewardItemInfo } from 'apps/event-server/src/domain/reward/reward-item-info';
-
+import { EventCreater } from 'apps/event-server/src/event-management/domain/event-creater';
+import { Event } from 'apps/event-server/src/event-management/domain/event';
+import { RewardItemInfo } from 'apps/event-server/src/reward-management/domain/reward-item-info';
 export class EventViewModel {
   @ApiProperty({
     description: '이벤트 ID',

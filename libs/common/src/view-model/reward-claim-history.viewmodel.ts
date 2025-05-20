@@ -3,7 +3,7 @@ import {
   EventRewardClaimHistoryReason,
   EventRewardClaimHistoryResult,
 } from '../variable/event-type';
-import { EventRewardClaimHistory } from 'apps/event-server/src/domain/event/event-reward-claim-history';
+import { EventRewardClaimHistory } from 'apps/event-server/src/event-management/domain/event-reward-claim-history';
 
 export class RewardClaimHistoryViewModel {
   @ApiProperty({

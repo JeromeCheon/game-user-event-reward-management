@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { RewardType } from 'apps/event-server/src/domain/reward/reward-type';
+import { RewardType } from 'apps/event-server/src/reward-management/domain/reward-type';
 import {
   IsNotEmpty,
   IsString,
